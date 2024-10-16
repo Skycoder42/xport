@@ -1,1 +1,9 @@
 include: package:dart_test_tools/strict.yaml
+
+analyzer:
+  exclude:
+    - "**.g.dart"
+
+custom_lint:
+  rules:
+    - src_library_not_exported: false

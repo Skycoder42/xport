@@ -4,6 +4,7 @@
 .dart_tool/
 .packages
 build/
+pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -23,3 +24,7 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Generated files
+*.g.dart
+*.freezed.dart
