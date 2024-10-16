@@ -1,15 +1,19 @@
 name: xport
-description: A sample command-line application.
+description: A cli tool to export Apple provisioning profiles and signing certificates and upload them to GitHub Secrets.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/Skycoder42/xport
 
 environment:
-  sdk: ^3.5.3
+  sdk: ^3.5.0
 
-# Add regular dependencies here.
-dependencies:
-  # path: ^1.8.0
+platforms:
+  macos:
+
+executables:
+  xport:
+
+dependencies: {}
 
 dev_dependencies:
-  lints: ^4.0.0
-  test: ^1.24.0
+  dart_pre_commit: ^5.4.0
+  dart_test_tools: ^6.0.0
