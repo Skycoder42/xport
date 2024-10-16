@@ -1,35 +1,52 @@
 import 'dart:io' as io;
 
 import 'package:dio/dio.dart' hide Headers;
+import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../cli/dependencies.dart';
+import '../../logging/logging_parser_error_logger.dart';
 import 'models/encrypted_secret.dart';
 import 'models/public_key.dart';
 
 part 'github_client.g.dart';
 
-@RestApi(baseUrl: 'https://api.github.com/')
-abstract class GitHubClient {
+@singleton
+class GithubClient extends __GitHubClientBase {
   static const _defaultHeaders = {
     io.HttpHeaders.acceptHeader: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
-  Dio get _dio;
-
-  factory GitHubClient({
-    required String accessToken,
-    BaseOptions? options,
+  factory GithubClient({
+    @gitHubAccessToken required String accessToken,
   }) =>
-      _GitHubClient(
-        Dio(
-          (options ?? BaseOptions())
-            ..headers.addAll(_defaultHeaders)
-            ..headers[io.HttpHeaders.authorizationHeader] =
-                'Bearer $accessToken',
-        ),
+      GithubClient.withOptions(
+        BaseOptions(),
+        accessToken: accessToken,
+        errorLogger: LoggingParserErrorLogger('GithubClient'),
       );
 
+  GithubClient.withOptions(
+    BaseOptions options, {
+    required String accessToken,
+    ParseErrorLogger? errorLogger,
+  }) : super(
+          Dio(
+            options
+              ..headers.addAll(_defaultHeaders)
+              ..headers[io.HttpHeaders.authorizationHeader] =
+                  'Bearer $accessToken',
+          ),
+          errorLogger: errorLogger,
+        );
+
+  @disposeMethod
+  void close({bool force = false}) => _dio.close();
+}
+
+@RestApi(baseUrl: 'https://api.github.com/')
+abstract class _GitHubClientBase {
   @GET('/orgs/{org}/actions/secrets/public-key')
   Future<PublicKey> getOrganisationPublicKey(
     @Path() String org,
@@ -75,8 +92,4 @@ abstract class GitHubClient {
     @Path() String secretName,
     @Body() EncryptedSecret secret,
   );
-}
-
-extension GithubClientX on GitHubClient {
-  void close({bool force = false}) => _dio.close(force: force);
 }

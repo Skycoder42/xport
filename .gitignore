@@ -28,3 +28,4 @@ doc/api/
 # Generated files
 *.g.dart
 *.freezed.dart
+*.config.dart
