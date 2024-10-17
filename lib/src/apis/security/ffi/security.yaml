@@ -1,0 +1,51 @@
+#!/usr/bin/env -S dart run ffigen --config
+name: SecurityFramework
+description: Dart bindings for the Security framework on macOS.
+language: objc
+output: security_framework.dart
+headers:
+  entry-points:
+    - /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h
+exclude-all-by-default: true
+silence-enum-warning: true
+functions:
+  include:
+    - CFRelease
+    - CFString.*
+    - CFDate.*
+    - CFDictionary.*
+    - CFData.*
+    - SecItem.*
+    - SecIdentity.*
+    - SecCopyErrorMessageString
+structs:
+  include:
+    - CFString.*
+    - CFDate.*
+    - CFDictionary.*
+    - CFData.*
+    - SecItem.*
+    - SecIdentity.*
+enums:
+  include:
+    - CFString.*
+    - Sec.*
+unnamed-enums:
+  include:
+    - errSec.*
+globals:
+  include:
+    - kSec.*
+    - kCFBoolean.*
+    - kCFString.*
+    - kCFDate.*
+    - kCFDictionary.*
+    - kCFData.*
+typedefs:
+  include:
+    - CFTypeRef.*
+    - CFString.*
+    - CFDate.*
+    - CFDictionary.*
+    - CFData.*
+    - SecIdentity.*

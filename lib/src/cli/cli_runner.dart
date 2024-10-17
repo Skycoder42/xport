@@ -1,24 +1,33 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
-import '../logging/log_consumer.dart';
+import '../logging/console_log_consumer.dart';
+import '../logging/dev_log_consumer.dart';
 import 'dependencies.config.dart';
 import 'dependencies.dart';
 import 'options.dart';
 
 class CliRunner {
   final GetIt _di;
+  final _logger = Logger('CliRunner');
 
   CliRunner([GetIt? di]) : _di = di ?? GetIt.I;
 
   Future<void> call(List<String> args) async {
-    final options = _parseArgs(args);
-    _configureLogging(options);
-    _configureDi(options);
+    _configureLoggingPre();
+    try {
+      final options = _parseArgs(args);
+      _configureLoggingPost(options);
+      _configureDi(options);
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      _logger.shout('Unhandled exception', e, s);
+    }
   }
 
   Options _parseArgs(List<String> args) {
@@ -35,9 +44,17 @@ class CliRunner {
     return result.toOptions();
   }
 
-  void _configureLogging(Options options) {
+  void _configureLoggingPre() {
+    final logConsumer = extensionStreamHasListener
+        ? const DevLogConsumer()
+        : const ConsoleLogConsumer();
+
+    Logger.root.level = Level.WARNING;
+    unawaited(Logger.root.onRecord.pipe(logConsumer));
+  }
+
+  void _configureLoggingPost(Options options) {
     Logger.root.level = options.logLevel;
-    unawaited(Logger.root.onRecord.pipe(const LogConsumer()));
   }
 
   void _configureDi(Options options) {

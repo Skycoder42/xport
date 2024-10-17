@@ -29,3 +29,6 @@ doc/api/
 *.g.dart
 *.freezed.dart
 *.config.dart
+
+# other
+custom_lint.log
