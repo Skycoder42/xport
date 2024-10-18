@@ -8,7 +8,7 @@ import 'ffi/security_framework.dart';
 import 'models/sec_identity.dart';
 import 'models/security_exception.dart';
 
-@singleton
+@injectable
 class Security {
   /// See /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/SecImportExport.h:L147
   static const _secItemImportExportKeyParametersVersion = 0;
