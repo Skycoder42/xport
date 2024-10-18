@@ -3,7 +3,9 @@
     "iphoneos",
     "iphonesimulator",
     "keychain",
+    "nullptr",
     "PKCS",
+    "xcode",
     "xcodebuild"
   ]
 }

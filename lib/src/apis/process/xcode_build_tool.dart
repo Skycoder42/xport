@@ -36,7 +36,9 @@ class XCodeBuildTool {
     required String scheme,
     XCodeBuildMode configuration = XCodeBuildMode.release,
     XCodeBuildSDK sdk = XCodeBuildSDK.iPhoneOs,
+    String destination = 'generic/platform=iOS',
     String? derivedDataPath,
+    bool allowProvisioningUpdates = false,
     Directory? workingDirectory,
   }) =>
       _processRunner.streamLines(
@@ -51,10 +53,13 @@ class XCodeBuildTool {
           configuration.value,
           '-sdk',
           sdk.value,
+          '-destination',
+          destination,
           if (derivedDataPath != null) ...[
             '-derivedDataPath',
             derivedDataPath,
           ],
+          if (allowProvisioningUpdates) '-allowProvisioningUpdates',
         ],
         workingDirectory: workingDirectory,
       );

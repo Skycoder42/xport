@@ -788,6 +788,681 @@ class SecurityFramework {
   late final _CFDictionaryRemoveAllValues = _CFDictionaryRemoveAllValuesPtr
       .asFunction<void Function(ffi.Pointer<__CFDictionary>)>();
 
+  int CFErrorGetTypeID() {
+    return _CFErrorGetTypeID();
+  }
+
+  late final _CFErrorGetTypeIDPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedLong Function()>>(
+          'CFErrorGetTypeID');
+  late final _CFErrorGetTypeID =
+      _CFErrorGetTypeIDPtr.asFunction<int Function()>();
+
+  late final ffi.Pointer<CFErrorDomain> _kCFErrorDomainPOSIX =
+      _lookup<CFErrorDomain>('kCFErrorDomainPOSIX');
+
+  CFErrorDomain get kCFErrorDomainPOSIX => _kCFErrorDomainPOSIX.value;
+
+  late final ffi.Pointer<CFErrorDomain> _kCFErrorDomainOSStatus =
+      _lookup<CFErrorDomain>('kCFErrorDomainOSStatus');
+
+  CFErrorDomain get kCFErrorDomainOSStatus => _kCFErrorDomainOSStatus.value;
+
+  late final ffi.Pointer<CFErrorDomain> _kCFErrorDomainMach =
+      _lookup<CFErrorDomain>('kCFErrorDomainMach');
+
+  CFErrorDomain get kCFErrorDomainMach => _kCFErrorDomainMach.value;
+
+  late final ffi.Pointer<CFErrorDomain> _kCFErrorDomainCocoa =
+      _lookup<CFErrorDomain>('kCFErrorDomainCocoa');
+
+  CFErrorDomain get kCFErrorDomainCocoa => _kCFErrorDomainCocoa.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorLocalizedDescriptionKey =
+      _lookup<CFStringRef>('kCFErrorLocalizedDescriptionKey');
+
+  CFStringRef get kCFErrorLocalizedDescriptionKey =>
+      _kCFErrorLocalizedDescriptionKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorLocalizedFailureKey =
+      _lookup<CFStringRef>('kCFErrorLocalizedFailureKey');
+
+  CFStringRef get kCFErrorLocalizedFailureKey =>
+      _kCFErrorLocalizedFailureKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorLocalizedFailureReasonKey =
+      _lookup<CFStringRef>('kCFErrorLocalizedFailureReasonKey');
+
+  CFStringRef get kCFErrorLocalizedFailureReasonKey =>
+      _kCFErrorLocalizedFailureReasonKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorLocalizedRecoverySuggestionKey =
+      _lookup<CFStringRef>('kCFErrorLocalizedRecoverySuggestionKey');
+
+  CFStringRef get kCFErrorLocalizedRecoverySuggestionKey =>
+      _kCFErrorLocalizedRecoverySuggestionKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorDescriptionKey =
+      _lookup<CFStringRef>('kCFErrorDescriptionKey');
+
+  CFStringRef get kCFErrorDescriptionKey => _kCFErrorDescriptionKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorUnderlyingErrorKey =
+      _lookup<CFStringRef>('kCFErrorUnderlyingErrorKey');
+
+  CFStringRef get kCFErrorUnderlyingErrorKey =>
+      _kCFErrorUnderlyingErrorKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorURLKey =
+      _lookup<CFStringRef>('kCFErrorURLKey');
+
+  CFStringRef get kCFErrorURLKey => _kCFErrorURLKey.value;
+
+  late final ffi.Pointer<CFStringRef> _kCFErrorFilePathKey =
+      _lookup<CFStringRef>('kCFErrorFilePathKey');
+
+  CFStringRef get kCFErrorFilePathKey => _kCFErrorFilePathKey.value;
+
+  CFErrorRef CFErrorCreate(
+    ffi.Pointer<__CFAllocator> allocator,
+    CFErrorDomain domain,
+    int code,
+    CFDictionaryRef userInfo,
+  ) {
+    return _CFErrorCreate(
+      allocator,
+      domain,
+      code,
+      userInfo,
+    );
+  }
+
+  late final _CFErrorCreatePtr = _lookup<
+      ffi.NativeFunction<
+          CFErrorRef Function(ffi.Pointer<__CFAllocator>, CFErrorDomain,
+              ffi.Long, CFDictionaryRef)>>('CFErrorCreate');
+  late final _CFErrorCreate = _CFErrorCreatePtr.asFunction<
+      CFErrorRef Function(
+          ffi.Pointer<__CFAllocator>, CFErrorDomain, int, CFDictionaryRef)>();
+
+  CFErrorRef CFErrorCreateWithUserInfoKeysAndValues(
+    ffi.Pointer<__CFAllocator> allocator,
+    CFErrorDomain domain,
+    int code,
+    ffi.Pointer<ffi.Pointer<ffi.Void>> userInfoKeys,
+    ffi.Pointer<ffi.Pointer<ffi.Void>> userInfoValues,
+    int numUserInfoValues,
+  ) {
+    return _CFErrorCreateWithUserInfoKeysAndValues(
+      allocator,
+      domain,
+      code,
+      userInfoKeys,
+      userInfoValues,
+      numUserInfoValues,
+    );
+  }
+
+  late final _CFErrorCreateWithUserInfoKeysAndValuesPtr = _lookup<
+      ffi.NativeFunction<
+          CFErrorRef Function(
+              ffi.Pointer<__CFAllocator>,
+              CFErrorDomain,
+              ffi.Long,
+              ffi.Pointer<ffi.Pointer<ffi.Void>>,
+              ffi.Pointer<ffi.Pointer<ffi.Void>>,
+              ffi.Long)>>('CFErrorCreateWithUserInfoKeysAndValues');
+  late final _CFErrorCreateWithUserInfoKeysAndValues =
+      _CFErrorCreateWithUserInfoKeysAndValuesPtr.asFunction<
+          CFErrorRef Function(
+              ffi.Pointer<__CFAllocator>,
+              CFErrorDomain,
+              int,
+              ffi.Pointer<ffi.Pointer<ffi.Void>>,
+              ffi.Pointer<ffi.Pointer<ffi.Void>>,
+              int)>();
+
+  CFErrorDomain CFErrorGetDomain(
+    CFErrorRef err,
+  ) {
+    return _CFErrorGetDomain(
+      err,
+    );
+  }
+
+  late final _CFErrorGetDomainPtr =
+      _lookup<ffi.NativeFunction<CFErrorDomain Function(CFErrorRef)>>(
+          'CFErrorGetDomain');
+  late final _CFErrorGetDomain =
+      _CFErrorGetDomainPtr.asFunction<CFErrorDomain Function(CFErrorRef)>();
+
+  int CFErrorGetCode(
+    CFErrorRef err,
+  ) {
+    return _CFErrorGetCode(
+      err,
+    );
+  }
+
+  late final _CFErrorGetCodePtr =
+      _lookup<ffi.NativeFunction<ffi.Long Function(CFErrorRef)>>(
+          'CFErrorGetCode');
+  late final _CFErrorGetCode =
+      _CFErrorGetCodePtr.asFunction<int Function(CFErrorRef)>();
+
+  CFDictionaryRef CFErrorCopyUserInfo(
+    CFErrorRef err,
+  ) {
+    return _CFErrorCopyUserInfo(
+      err,
+    );
+  }
+
+  late final _CFErrorCopyUserInfoPtr =
+      _lookup<ffi.NativeFunction<CFDictionaryRef Function(CFErrorRef)>>(
+          'CFErrorCopyUserInfo');
+  late final _CFErrorCopyUserInfo = _CFErrorCopyUserInfoPtr.asFunction<
+      CFDictionaryRef Function(CFErrorRef)>();
+
+  CFStringRef CFErrorCopyDescription(
+    CFErrorRef err,
+  ) {
+    return _CFErrorCopyDescription(
+      err,
+    );
+  }
+
+  late final _CFErrorCopyDescriptionPtr =
+      _lookup<ffi.NativeFunction<CFStringRef Function(CFErrorRef)>>(
+          'CFErrorCopyDescription');
+  late final _CFErrorCopyDescription =
+      _CFErrorCopyDescriptionPtr.asFunction<CFStringRef Function(CFErrorRef)>();
+
+  CFStringRef CFErrorCopyFailureReason(
+    CFErrorRef err,
+  ) {
+    return _CFErrorCopyFailureReason(
+      err,
+    );
+  }
+
+  late final _CFErrorCopyFailureReasonPtr =
+      _lookup<ffi.NativeFunction<CFStringRef Function(CFErrorRef)>>(
+          'CFErrorCopyFailureReason');
+  late final _CFErrorCopyFailureReason = _CFErrorCopyFailureReasonPtr
+      .asFunction<CFStringRef Function(CFErrorRef)>();
+
+  CFStringRef CFErrorCopyRecoverySuggestion(
+    CFErrorRef err,
+  ) {
+    return _CFErrorCopyRecoverySuggestion(
+      err,
+    );
+  }
+
+  late final _CFErrorCopyRecoverySuggestionPtr =
+      _lookup<ffi.NativeFunction<CFStringRef Function(CFErrorRef)>>(
+          'CFErrorCopyRecoverySuggestion');
+  late final _CFErrorCopyRecoverySuggestion = _CFErrorCopyRecoverySuggestionPtr
+      .asFunction<CFStringRef Function(CFErrorRef)>();
+
+  int SecCertificateGetTypeID() {
+    return _SecCertificateGetTypeID();
+  }
+
+  late final _SecCertificateGetTypeIDPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedLong Function()>>(
+          'SecCertificateGetTypeID');
+  late final _SecCertificateGetTypeID =
+      _SecCertificateGetTypeIDPtr.asFunction<int Function()>();
+
+  SecCertificateRef SecCertificateCreateWithData(
+    ffi.Pointer<__CFAllocator> allocator,
+    CFDataRef data,
+  ) {
+    return _SecCertificateCreateWithData(
+      allocator,
+      data,
+    );
+  }
+
+  late final _SecCertificateCreateWithDataPtr = _lookup<
+      ffi.NativeFunction<
+          SecCertificateRef Function(ffi.Pointer<__CFAllocator>,
+              CFDataRef)>>('SecCertificateCreateWithData');
+  late final _SecCertificateCreateWithData =
+      _SecCertificateCreateWithDataPtr.asFunction<
+          SecCertificateRef Function(ffi.Pointer<__CFAllocator>, CFDataRef)>();
+
+  CFDataRef SecCertificateCopyData(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyData(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyDataPtr =
+      _lookup<ffi.NativeFunction<CFDataRef Function(SecCertificateRef)>>(
+          'SecCertificateCopyData');
+  late final _SecCertificateCopyData = _SecCertificateCopyDataPtr.asFunction<
+      CFDataRef Function(SecCertificateRef)>();
+
+  CFStringRef SecCertificateCopySubjectSummary(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopySubjectSummary(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopySubjectSummaryPtr =
+      _lookup<ffi.NativeFunction<CFStringRef Function(SecCertificateRef)>>(
+          'SecCertificateCopySubjectSummary');
+  late final _SecCertificateCopySubjectSummary =
+      _SecCertificateCopySubjectSummaryPtr.asFunction<
+          CFStringRef Function(SecCertificateRef)>();
+
+  int SecCertificateCopyCommonName(
+    SecCertificateRef certificate,
+    ffi.Pointer<CFStringRef> commonName,
+  ) {
+    return _SecCertificateCopyCommonName(
+      certificate,
+      commonName,
+    );
+  }
+
+  late final _SecCertificateCopyCommonNamePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef,
+              ffi.Pointer<CFStringRef>)>>('SecCertificateCopyCommonName');
+  late final _SecCertificateCopyCommonName = _SecCertificateCopyCommonNamePtr
+      .asFunction<int Function(SecCertificateRef, ffi.Pointer<CFStringRef>)>();
+
+  int SecCertificateCopyEmailAddresses(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Pointer<__CFArray>> emailAddresses,
+  ) {
+    return _SecCertificateCopyEmailAddresses(
+      certificate,
+      emailAddresses,
+    );
+  }
+
+  late final _SecCertificateCopyEmailAddressesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int Function(
+                  SecCertificateRef, ffi.Pointer<ffi.Pointer<__CFArray>>)>>(
+      'SecCertificateCopyEmailAddresses');
+  late final _SecCertificateCopyEmailAddresses =
+      _SecCertificateCopyEmailAddressesPtr.asFunction<
+          int Function(
+              SecCertificateRef, ffi.Pointer<ffi.Pointer<__CFArray>>)>();
+
+  CFDataRef SecCertificateCopyNormalizedIssuerSequence(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyNormalizedIssuerSequence(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyNormalizedIssuerSequencePtr =
+      _lookup<ffi.NativeFunction<CFDataRef Function(SecCertificateRef)>>(
+          'SecCertificateCopyNormalizedIssuerSequence');
+  late final _SecCertificateCopyNormalizedIssuerSequence =
+      _SecCertificateCopyNormalizedIssuerSequencePtr.asFunction<
+          CFDataRef Function(SecCertificateRef)>();
+
+  CFDataRef SecCertificateCopyNormalizedSubjectSequence(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyNormalizedSubjectSequence(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyNormalizedSubjectSequencePtr =
+      _lookup<ffi.NativeFunction<CFDataRef Function(SecCertificateRef)>>(
+          'SecCertificateCopyNormalizedSubjectSequence');
+  late final _SecCertificateCopyNormalizedSubjectSequence =
+      _SecCertificateCopyNormalizedSubjectSequencePtr.asFunction<
+          CFDataRef Function(SecCertificateRef)>();
+
+  ffi.Pointer<__SecKey> SecCertificateCopyKey(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyKey(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyKeyPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Pointer<__SecKey> Function(SecCertificateRef)>>(
+      'SecCertificateCopyKey');
+  late final _SecCertificateCopyKey = _SecCertificateCopyKeyPtr.asFunction<
+      ffi.Pointer<__SecKey> Function(SecCertificateRef)>();
+
+  int SecCertificateCopyPublicKey(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Pointer<__SecKey>> key,
+  ) {
+    return _SecCertificateCopyPublicKey(
+      certificate,
+      key,
+    );
+  }
+
+  late final _SecCertificateCopyPublicKeyPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int Function(
+                  SecCertificateRef, ffi.Pointer<ffi.Pointer<__SecKey>>)>>(
+      'SecCertificateCopyPublicKey');
+  late final _SecCertificateCopyPublicKey =
+      _SecCertificateCopyPublicKeyPtr.asFunction<
+          int Function(
+              SecCertificateRef, ffi.Pointer<ffi.Pointer<__SecKey>>)>();
+
+  CFDataRef SecCertificateCopySerialNumberData(
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopySerialNumberData(
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopySerialNumberDataPtr = _lookup<
+      ffi.NativeFunction<
+          CFDataRef Function(SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>>('SecCertificateCopySerialNumberData');
+  late final _SecCertificateCopySerialNumberData =
+      _SecCertificateCopySerialNumberDataPtr.asFunction<
+          CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>();
+
+  CFDateRef SecCertificateCopyNotValidBeforeDate(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyNotValidBeforeDate(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyNotValidBeforeDatePtr =
+      _lookup<ffi.NativeFunction<CFDateRef Function(SecCertificateRef)>>(
+          'SecCertificateCopyNotValidBeforeDate');
+  late final _SecCertificateCopyNotValidBeforeDate =
+      _SecCertificateCopyNotValidBeforeDatePtr.asFunction<
+          CFDateRef Function(SecCertificateRef)>();
+
+  CFDateRef SecCertificateCopyNotValidAfterDate(
+    SecCertificateRef certificate,
+  ) {
+    return _SecCertificateCopyNotValidAfterDate(
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyNotValidAfterDatePtr =
+      _lookup<ffi.NativeFunction<CFDateRef Function(SecCertificateRef)>>(
+          'SecCertificateCopyNotValidAfterDate');
+  late final _SecCertificateCopyNotValidAfterDate =
+      _SecCertificateCopyNotValidAfterDatePtr.asFunction<
+          CFDateRef Function(SecCertificateRef)>();
+
+  CFDataRef SecCertificateCopySerialNumber(
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopySerialNumber(
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopySerialNumberPtr = _lookup<
+      ffi.NativeFunction<
+          CFDataRef Function(SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>>('SecCertificateCopySerialNumber');
+  late final _SecCertificateCopySerialNumber =
+      _SecCertificateCopySerialNumberPtr.asFunction<
+          CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>();
+
+  int SecCertificateCreateFromData(
+    ffi.Pointer<cssm_data> data,
+    int type,
+    int encoding,
+    ffi.Pointer<SecCertificateRef> certificate,
+  ) {
+    return _SecCertificateCreateFromData(
+      data,
+      type,
+      encoding,
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCreateFromDataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<cssm_data>, ffi.Uint32, ffi.Uint32,
+              ffi.Pointer<SecCertificateRef>)>>('SecCertificateCreateFromData');
+  late final _SecCertificateCreateFromData =
+      _SecCertificateCreateFromDataPtr.asFunction<
+          int Function(ffi.Pointer<cssm_data>, int, int,
+              ffi.Pointer<SecCertificateRef>)>();
+
+  int SecCertificateAddToKeychain(
+    SecCertificateRef certificate,
+    ffi.Pointer<__SecKeychain> keychain,
+  ) {
+    return _SecCertificateAddToKeychain(
+      certificate,
+      keychain,
+    );
+  }
+
+  late final _SecCertificateAddToKeychainPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef,
+              ffi.Pointer<__SecKeychain>)>>('SecCertificateAddToKeychain');
+  late final _SecCertificateAddToKeychain =
+      _SecCertificateAddToKeychainPtr.asFunction<
+          int Function(SecCertificateRef, ffi.Pointer<__SecKeychain>)>();
+
+  int SecCertificateGetData(
+    SecCertificateRef certificate,
+    ffi.Pointer<cssm_data> data,
+  ) {
+    return _SecCertificateGetData(
+      certificate,
+      data,
+    );
+  }
+
+  late final _SecCertificateGetDataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef,
+              ffi.Pointer<cssm_data>)>>('SecCertificateGetData');
+  late final _SecCertificateGetData = _SecCertificateGetDataPtr.asFunction<
+      int Function(SecCertificateRef, ffi.Pointer<cssm_data>)>();
+
+  int SecCertificateGetType(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Uint32> certificateType,
+  ) {
+    return _SecCertificateGetType(
+      certificate,
+      certificateType,
+    );
+  }
+
+  late final _SecCertificateGetTypePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef,
+              ffi.Pointer<ffi.Uint32>)>>('SecCertificateGetType');
+  late final _SecCertificateGetType = _SecCertificateGetTypePtr.asFunction<
+      int Function(SecCertificateRef, ffi.Pointer<ffi.Uint32>)>();
+
+  int SecCertificateGetSubject(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Pointer<cssm_x509_name>> subject,
+  ) {
+    return _SecCertificateGetSubject(
+      certificate,
+      subject,
+    );
+  }
+
+  late final _SecCertificateGetSubjectPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int Function(SecCertificateRef,
+                  ffi.Pointer<ffi.Pointer<cssm_x509_name>>)>>(
+      'SecCertificateGetSubject');
+  late final _SecCertificateGetSubject =
+      _SecCertificateGetSubjectPtr.asFunction<
+          int Function(
+              SecCertificateRef, ffi.Pointer<ffi.Pointer<cssm_x509_name>>)>();
+
+  int SecCertificateGetIssuer(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Pointer<cssm_x509_name>> issuer,
+  ) {
+    return _SecCertificateGetIssuer(
+      certificate,
+      issuer,
+    );
+  }
+
+  late final _SecCertificateGetIssuerPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int Function(SecCertificateRef,
+                  ffi.Pointer<ffi.Pointer<cssm_x509_name>>)>>(
+      'SecCertificateGetIssuer');
+  late final _SecCertificateGetIssuer = _SecCertificateGetIssuerPtr.asFunction<
+      int Function(
+          SecCertificateRef, ffi.Pointer<ffi.Pointer<cssm_x509_name>>)>();
+
+  int SecCertificateGetCLHandle(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.IntPtr> clHandle,
+  ) {
+    return _SecCertificateGetCLHandle(
+      certificate,
+      clHandle,
+    );
+  }
+
+  late final _SecCertificateGetCLHandlePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef,
+              ffi.Pointer<ffi.IntPtr>)>>('SecCertificateGetCLHandle');
+  late final _SecCertificateGetCLHandle = _SecCertificateGetCLHandlePtr
+      .asFunction<int Function(SecCertificateRef, ffi.Pointer<ffi.IntPtr>)>();
+
+  int SecCertificateGetAlgorithmID(
+    SecCertificateRef certificate,
+    ffi.Pointer<ffi.Pointer<SecAsn1AlgId>> algid,
+  ) {
+    return _SecCertificateGetAlgorithmID(
+      certificate,
+      algid,
+    );
+  }
+
+  late final _SecCertificateGetAlgorithmIDPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int Function(
+                  SecCertificateRef, ffi.Pointer<ffi.Pointer<SecAsn1AlgId>>)>>(
+      'SecCertificateGetAlgorithmID');
+  late final _SecCertificateGetAlgorithmID =
+      _SecCertificateGetAlgorithmIDPtr.asFunction<
+          int Function(
+              SecCertificateRef, ffi.Pointer<ffi.Pointer<SecAsn1AlgId>>)>();
+
+  int SecCertificateCopyPreference(
+    CFStringRef name,
+    int keyUsage,
+    ffi.Pointer<SecCertificateRef> certificate,
+  ) {
+    return _SecCertificateCopyPreference(
+      name,
+      keyUsage,
+      certificate,
+    );
+  }
+
+  late final _SecCertificateCopyPreferencePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(CFStringRef, ffi.Uint32,
+              ffi.Pointer<SecCertificateRef>)>>('SecCertificateCopyPreference');
+  late final _SecCertificateCopyPreference =
+      _SecCertificateCopyPreferencePtr.asFunction<
+          int Function(CFStringRef, int, ffi.Pointer<SecCertificateRef>)>();
+
+  SecCertificateRef SecCertificateCopyPreferred(
+    CFStringRef name,
+    ffi.Pointer<__CFArray> keyUsage,
+  ) {
+    return _SecCertificateCopyPreferred(
+      name,
+      keyUsage,
+    );
+  }
+
+  late final _SecCertificateCopyPreferredPtr = _lookup<
+      ffi.NativeFunction<
+          SecCertificateRef Function(CFStringRef,
+              ffi.Pointer<__CFArray>)>>('SecCertificateCopyPreferred');
+  late final _SecCertificateCopyPreferred =
+      _SecCertificateCopyPreferredPtr.asFunction<
+          SecCertificateRef Function(CFStringRef, ffi.Pointer<__CFArray>)>();
+
+  int SecCertificateSetPreference(
+    SecCertificateRef certificate,
+    CFStringRef name,
+    int keyUsage,
+    CFDateRef date,
+  ) {
+    return _SecCertificateSetPreference(
+      certificate,
+      name,
+      keyUsage,
+      date,
+    );
+  }
+
+  late final _SecCertificateSetPreferencePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef, CFStringRef, ffi.Uint32,
+              CFDateRef)>>('SecCertificateSetPreference');
+  late final _SecCertificateSetPreference =
+      _SecCertificateSetPreferencePtr.asFunction<
+          int Function(SecCertificateRef, CFStringRef, int, CFDateRef)>();
+
+  int SecCertificateSetPreferred(
+    SecCertificateRef certificate,
+    CFStringRef name,
+    ffi.Pointer<__CFArray> keyUsage,
+  ) {
+    return _SecCertificateSetPreferred(
+      certificate,
+      name,
+      keyUsage,
+    );
+  }
+
+  late final _SecCertificateSetPreferredPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(SecCertificateRef, CFStringRef,
+              ffi.Pointer<__CFArray>)>>('SecCertificateSetPreferred');
+  late final _SecCertificateSetPreferred =
+      _SecCertificateSetPreferredPtr.asFunction<
+          int Function(
+              SecCertificateRef, CFStringRef, ffi.Pointer<__CFArray>)>();
+
   late final ffi.Pointer<CFStringRef> _kSecPropertyKeyType =
       _lookup<CFStringRef>('kSecPropertyKeyType');
 
@@ -893,6 +1568,105 @@ class SecurityFramework {
   set kSecPropertyTypeNumber(CFStringRef value) =>
       _kSecPropertyTypeNumber.value = value;
 
+  CFDictionaryRef SecCertificateCopyValues(
+    SecCertificateRef certificate,
+    ffi.Pointer<__CFArray> keys,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopyValues(
+      certificate,
+      keys,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopyValuesPtr = _lookup<
+      ffi.NativeFunction<
+          CFDictionaryRef Function(SecCertificateRef, ffi.Pointer<__CFArray>,
+              ffi.Pointer<CFErrorRef>)>>('SecCertificateCopyValues');
+  late final _SecCertificateCopyValues =
+      _SecCertificateCopyValuesPtr.asFunction<
+          CFDictionaryRef Function(SecCertificateRef, ffi.Pointer<__CFArray>,
+              ffi.Pointer<CFErrorRef>)>();
+
+  CFStringRef SecCertificateCopyLongDescription(
+    ffi.Pointer<__CFAllocator> alloc,
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopyLongDescription(
+      alloc,
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopyLongDescriptionPtr = _lookup<
+      ffi.NativeFunction<
+          CFStringRef Function(ffi.Pointer<__CFAllocator>, SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>>('SecCertificateCopyLongDescription');
+  late final _SecCertificateCopyLongDescription =
+      _SecCertificateCopyLongDescriptionPtr.asFunction<
+          CFStringRef Function(ffi.Pointer<__CFAllocator>, SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>();
+
+  CFStringRef SecCertificateCopyShortDescription(
+    ffi.Pointer<__CFAllocator> alloc,
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopyShortDescription(
+      alloc,
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopyShortDescriptionPtr = _lookup<
+      ffi.NativeFunction<
+          CFStringRef Function(ffi.Pointer<__CFAllocator>, SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>>('SecCertificateCopyShortDescription');
+  late final _SecCertificateCopyShortDescription =
+      _SecCertificateCopyShortDescriptionPtr.asFunction<
+          CFStringRef Function(ffi.Pointer<__CFAllocator>, SecCertificateRef,
+              ffi.Pointer<CFErrorRef>)>();
+
+  CFDataRef SecCertificateCopyNormalizedIssuerContent(
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopyNormalizedIssuerContent(
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopyNormalizedIssuerContentPtr = _lookup<
+          ffi.NativeFunction<
+              CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>>(
+      'SecCertificateCopyNormalizedIssuerContent');
+  late final _SecCertificateCopyNormalizedIssuerContent =
+      _SecCertificateCopyNormalizedIssuerContentPtr.asFunction<
+          CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>();
+
+  CFDataRef SecCertificateCopyNormalizedSubjectContent(
+    SecCertificateRef certificate,
+    ffi.Pointer<CFErrorRef> error,
+  ) {
+    return _SecCertificateCopyNormalizedSubjectContent(
+      certificate,
+      error,
+    );
+  }
+
+  late final _SecCertificateCopyNormalizedSubjectContentPtr = _lookup<
+          ffi.NativeFunction<
+              CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>>(
+      'SecCertificateCopyNormalizedSubjectContent');
+  late final _SecCertificateCopyNormalizedSubjectContent =
+      _SecCertificateCopyNormalizedSubjectContentPtr.asFunction<
+          CFDataRef Function(SecCertificateRef, ffi.Pointer<CFErrorRef>)>();
+
   int SecIdentityGetTypeID() {
     return _SecIdentityGetTypeID();
   }
@@ -905,7 +1679,7 @@ class SecurityFramework {
 
   int SecIdentityCreateWithCertificate(
     CFTypeRef keychainOrArray,
-    ffi.Pointer<__SecCertificate> certificateRef,
+    SecCertificateRef certificateRef,
     ffi.Pointer<SecIdentityRef> identityRef,
   ) {
     return _SecIdentityCreateWithCertificate(
@@ -917,17 +1691,17 @@ class SecurityFramework {
 
   late final _SecIdentityCreateWithCertificatePtr = _lookup<
           ffi.NativeFunction<
-              ffi.Int Function(CFTypeRef, ffi.Pointer<__SecCertificate>,
-                  ffi.Pointer<SecIdentityRef>)>>(
+              ffi.Int Function(
+                  CFTypeRef, SecCertificateRef, ffi.Pointer<SecIdentityRef>)>>(
       'SecIdentityCreateWithCertificate');
   late final _SecIdentityCreateWithCertificate =
       _SecIdentityCreateWithCertificatePtr.asFunction<
-          int Function(CFTypeRef, ffi.Pointer<__SecCertificate>,
-              ffi.Pointer<SecIdentityRef>)>();
+          int Function(
+              CFTypeRef, SecCertificateRef, ffi.Pointer<SecIdentityRef>)>();
 
   int SecIdentityCopyCertificate(
     SecIdentityRef identityRef,
-    ffi.Pointer<ffi.Pointer<__SecCertificate>> certificateRef,
+    ffi.Pointer<SecCertificateRef> certificateRef,
   ) {
     return _SecIdentityCopyCertificate(
       identityRef,
@@ -936,14 +1710,12 @@ class SecurityFramework {
   }
 
   late final _SecIdentityCopyCertificatePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Int Function(
-                  SecIdentityRef, ffi.Pointer<ffi.Pointer<__SecCertificate>>)>>(
-      'SecIdentityCopyCertificate');
+      ffi.NativeFunction<
+          ffi.Int Function(SecIdentityRef,
+              ffi.Pointer<SecCertificateRef>)>>('SecIdentityCopyCertificate');
   late final _SecIdentityCopyCertificate =
       _SecIdentityCopyCertificatePtr.asFunction<
-          int Function(
-              SecIdentityRef, ffi.Pointer<ffi.Pointer<__SecCertificate>>)>();
+          int Function(SecIdentityRef, ffi.Pointer<SecCertificateRef>)>();
 
   int SecIdentityCopyPrivateKey(
     SecIdentityRef identityRef,
@@ -2799,7 +3571,7 @@ class SecurityFramework {
     CFDictionaryRef formatOptions,
     CFStringRef validFormatSpecifiers,
     CFStringRef format,
-    ffi.Pointer<ffi.Pointer<__CFError>> errorPtr,
+    ffi.Pointer<CFErrorRef> errorPtr,
   ) {
     return _CFStringCreateStringWithValidatedFormat(
       alloc,
@@ -2812,17 +3584,13 @@ class SecurityFramework {
 
   late final _CFStringCreateStringWithValidatedFormatPtr = _lookup<
           ffi.NativeFunction<
-              CFStringRef Function(
-                  ffi.Pointer<__CFAllocator>,
-                  CFDictionaryRef,
-                  CFStringRef,
-                  CFStringRef,
-                  ffi.Pointer<ffi.Pointer<__CFError>>)>>(
+              CFStringRef Function(ffi.Pointer<__CFAllocator>, CFDictionaryRef,
+                  CFStringRef, CFStringRef, ffi.Pointer<CFErrorRef>)>>(
       'CFStringCreateStringWithValidatedFormat');
   late final _CFStringCreateStringWithValidatedFormat =
       _CFStringCreateStringWithValidatedFormatPtr.asFunction<
           CFStringRef Function(ffi.Pointer<__CFAllocator>, CFDictionaryRef,
-              CFStringRef, CFStringRef, ffi.Pointer<ffi.Pointer<__CFError>>)>();
+              CFStringRef, CFStringRef, ffi.Pointer<CFErrorRef>)>();
 
   CFStringRef CFStringCreateStringWithValidatedFormatAndArguments(
     ffi.Pointer<__CFAllocator> alloc,
@@ -2830,7 +3598,7 @@ class SecurityFramework {
     CFStringRef validFormatSpecifiers,
     CFStringRef format,
     ffi.Pointer<ffi.Char> arguments,
-    ffi.Pointer<ffi.Pointer<__CFError>> errorPtr,
+    ffi.Pointer<CFErrorRef> errorPtr,
   ) {
     return _CFStringCreateStringWithValidatedFormatAndArguments(
       alloc,
@@ -2850,7 +3618,7 @@ class SecurityFramework {
                   CFStringRef,
                   CFStringRef,
                   ffi.Pointer<ffi.Char>,
-                  ffi.Pointer<ffi.Pointer<__CFError>>)>>(
+                  ffi.Pointer<CFErrorRef>)>>(
       'CFStringCreateStringWithValidatedFormatAndArguments');
   late final _CFStringCreateStringWithValidatedFormatAndArguments =
       _CFStringCreateStringWithValidatedFormatAndArgumentsPtr.asFunction<
@@ -2860,7 +3628,7 @@ class SecurityFramework {
               CFStringRef,
               CFStringRef,
               ffi.Pointer<ffi.Char>,
-              ffi.Pointer<ffi.Pointer<__CFError>>)>();
+              ffi.Pointer<CFErrorRef>)>();
 
   ffi.Pointer<__CFString> CFStringCreateMutable(
     ffi.Pointer<__CFAllocator> alloc,
@@ -8787,6 +9555,56 @@ typedef DartCFDictionaryApplierFunctionFunction = void Function(
     ffi.Pointer<ffi.Void> key,
     ffi.Pointer<ffi.Void> value,
     ffi.Pointer<ffi.Void> context);
+typedef CFErrorDomain = CFStringRef;
+typedef CFErrorRef = ffi.Pointer<__CFError>;
+
+final class __CFError extends ffi.Opaque {}
+
+typedef SecCertificateRef = ffi.Pointer<__SecCertificate>;
+
+final class __SecCertificate extends ffi.Opaque {}
+
+final class __CFArray extends ffi.Opaque {}
+
+final class __SecKey extends ffi.Opaque {}
+
+final class cssm_data extends ffi.Struct {
+  @ffi.Size()
+  external int Length;
+
+  external ffi.Pointer<ffi.Uint8> Data;
+}
+
+final class __SecKeychain extends ffi.Opaque {}
+
+final class cssm_x509_name extends ffi.Struct {
+  @ffi.Uint32()
+  external int numberOfRDNs;
+
+  external ffi.Pointer<cssm_x509_rdn> RelativeDistinguishedName;
+}
+
+final class cssm_x509_rdn extends ffi.Struct {
+  @ffi.Uint32()
+  external int numberOfPairs;
+
+  external ffi.Pointer<cssm_x509_type_value_pair> AttributeTypeAndValue;
+}
+
+final class cssm_x509_type_value_pair extends ffi.Struct {
+  external cssm_data type;
+
+  @ffi.Uint8()
+  external int valueType;
+
+  external cssm_data value;
+}
+
+final class SecAsn1AlgId extends ffi.Struct {
+  external cssm_data algorithm;
+
+  external cssm_data parameters;
+}
 
 enum SecKeyUsage {
   kSecKeyUsageUnspecified(0),
@@ -8831,15 +9649,9 @@ enum SecKeyUsage {
   }
 }
 
-final class __SecCertificate extends ffi.Opaque {}
-
 typedef SecIdentityRef = ffi.Pointer<__SecIdentity>;
 
 final class __SecIdentity extends ffi.Opaque {}
-
-final class __SecKey extends ffi.Opaque {}
-
-final class __CFArray extends ffi.Opaque {}
 
 enum SecAccessControlCreateFlags {
   kSecAccessControlUserPresence(1),
@@ -8962,8 +9774,6 @@ enum CFStringBuiltInEncodings {
 
 typedef CFStringEncoding = ffi.UnsignedInt;
 typedef DartCFStringEncoding = int;
-
-final class __CFError extends ffi.Opaque {}
 
 enum CFStringCompareFlags {
   kCFCompareCaseInsensitive(1),
@@ -9827,8 +10637,6 @@ final class SecItemImportExportKeyParameters extends ffi.Struct {
 }
 
 final class __SecAccess extends ffi.Opaque {}
-
-final class __SecKeychain extends ffi.Opaque {}
 
 enum SecTrustResultType {
   kSecTrustResultInvalid(0),

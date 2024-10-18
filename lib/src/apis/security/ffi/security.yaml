@@ -15,8 +15,10 @@ functions:
     - CFDate.*
     - CFDictionary.*
     - CFData.*
+    - CFError.*
     - SecItem.*
     - SecIdentity.*
+    - SecCertificate.*
     - SecCopyErrorMessageString
 structs:
   include:
@@ -24,8 +26,10 @@ structs:
     - CFDate.*
     - CFDictionary.*
     - CFData.*
+    - CFError.*
     - SecItem.*
     - SecIdentity.*
+    - SecCertificate.*
 enums:
   include:
     - CFString.*
@@ -41,6 +45,7 @@ globals:
     - kCFDate.*
     - kCFDictionary.*
     - kCFData.*
+    - kCFError.*
 typedefs:
   include:
     - CFTypeRef.*
@@ -48,4 +53,6 @@ typedefs:
     - CFDate.*
     - CFDictionary.*
     - CFData.*
+    - CFError.*
     - SecIdentity.*
+    - SecCertificate.*

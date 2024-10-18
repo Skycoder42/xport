@@ -6,11 +6,12 @@ import 'package:args/args.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
+import '../app/xporter.dart';
 import '../logging/console_log_consumer.dart';
 import '../logging/dev_log_consumer.dart';
 import 'dependencies.config.dart';
-import 'dependencies.dart';
 import 'options.dart';
+import 'options_module.dart';
 
 class CliRunner {
   final GetIt _di;
@@ -23,7 +24,10 @@ class CliRunner {
     try {
       final options = _parseArgs(args);
       _configureLoggingPost(options);
-      _configureDi(options);
+      await _configureDi(options);
+
+      await _di.get<XPorter>().updateSecrets();
+
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
       _logger.shout('Unhandled exception', e, s);
@@ -57,12 +61,8 @@ class CliRunner {
     Logger.root.level = options.logLevel;
   }
 
-  void _configureDi(Options options) {
-    _di
-      ..registerSingleton(
-        options.accessToken,
-        instanceName: gitHubAccessToken.name,
-      )
-      ..init();
+  Future<void> _configureDi(Options options) async {
+    setOptions(options);
+    await _di.init();
   }
 }

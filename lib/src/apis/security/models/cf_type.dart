@@ -2,7 +2,8 @@ import 'dart:ffi';
 
 import '../ffi/security_framework.dart';
 
-abstract class CFType<T extends Pointer<NativeType>> implements Finalizable {
+abstract base class CFType<T extends Pointer<NativeType>>
+    implements Finalizable {
   static final _nativeFinalizers = Expando<NativeFinalizer>(
     'CFType._nativeFinalizers',
   );

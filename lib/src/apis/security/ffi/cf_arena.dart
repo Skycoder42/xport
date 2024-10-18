@@ -1,7 +1,10 @@
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 
+import '../models/cf_exception.dart';
+import '../models/security_exception.dart';
 import 'security_framework.dart';
 
 class CFArena extends Arena {
@@ -11,6 +14,22 @@ class CFArena extends Arena {
 
   Pointer<T> autoRelease<T extends NativeType>(Pointer<T> ref) =>
       this.using<CFTypeRef>(ref.cast(), securityFramework.CFRelease).cast();
+
+  CFException toCFException(CFErrorRef cfError) {
+    final code = securityFramework.CFErrorGetCode(cfError);
+    final reason =
+        autoRelease(securityFramework.CFErrorCopyFailureReason(cfError));
+    final description =
+        autoRelease(securityFramework.CFErrorCopyDescription(cfError));
+    return CFException(code, toDartString(reason), toDartString(description));
+  }
+
+  SecurityException toSecurityException(int osStatus) {
+    final message = autoRelease(
+      securityFramework.SecCopyErrorMessageString(osStatus, nullptr),
+    );
+    return SecurityException(osStatus, toDartString(message));
+  }
 
   String toDartString(CFStringRef cfString) {
     final bufferSize = securityFramework.CFStringGetMaximumSizeForEncoding(
@@ -30,6 +49,13 @@ class CFArena extends Arena {
     }
     return buffer.cast<Utf8>().toDartString();
   }
+
+  Uint8List toUint8List(CFDataRef cfData) =>
+      securityFramework.CFDataGetBytePtr(cfData).cast<Uint8>().asTypedList(
+            securityFramework.CFDataGetLength(cfData),
+            finalizer: securityFramework.CFReleasePtr,
+            token: cfData.cast(),
+          );
 
   CFStringRef toCFString(String string) => autoRelease(
         securityFramework.CFStringCreateWithCString(

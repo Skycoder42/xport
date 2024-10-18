@@ -19,7 +19,7 @@ class GithubClient extends __GitHubClientBase {
   };
 
   factory GithubClient({
-    @gitHubAccessToken required String accessToken,
+    @accessToken required String accessToken,
   }) =>
       GithubClient.withOptions(
         BaseOptions(),

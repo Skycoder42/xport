@@ -2,14 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
 @injectable
 class ProcessRunner {
+  final _logger = Logger('ProcessRunner');
+
   Stream<String> streamLines(
     String executable,
     List<String> arguments, {
     Directory? workingDirectory,
   }) async* {
+    _logger.finer('Running $executable ${arguments.join(' ')}');
     final proc = await Process.start(
       executable,
       arguments,
@@ -23,9 +27,9 @@ class ProcessRunner {
       yield* proc.stdout
           .transform(utf8.decoder)
           .transform(const LineSplitter());
-      await stderrSub.asFuture<void>();
 
       final exitCode = await proc.exitCode;
+      _logger.finest('$executable finished with exit code $exitCode');
       if (exitCode != 0) {
         throw ProcessException(
           executable,

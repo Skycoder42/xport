@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import '../ffi/cf_arena.dart';
 import '../ffi/security_framework.dart';
 
@@ -12,18 +10,15 @@ class SecurityException implements Exception {
   @override
   String toString() => 'SecurityException($osStatus): $message';
 
-  factory SecurityException.fromOsStatus(
-    SecurityFramework securityFramework,
+  static void validateStatus(
+    CFArena arena,
     int osStatus,
   ) {
-    final arena = CFArena(securityFramework);
-    try {
-      final message = arena.autoRelease(
-        securityFramework.SecCopyErrorMessageString(osStatus, nullptr),
-      );
-      return SecurityException(osStatus, arena.toDartString(message));
-    } finally {
-      arena.releaseAll();
+    switch (osStatus) {
+      case errSecSuccess:
+        break;
+      default:
+        throw arena.toSecurityException(osStatus);
     }
   }
 }
