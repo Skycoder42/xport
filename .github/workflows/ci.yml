@@ -16,6 +16,7 @@ jobs:
     with:
       buildRunner: true
       unitTestPaths: ""
+      panaScoreThreshold: 10
 
   # cd:
   #   name: CD
