@@ -15,8 +15,8 @@ sealed class UploadCache with _$UploadCache {
   @yamlSerializable
   @BinaryConverter()
   const factory UploadCache({
-    @yamlKey required String profileId,
-    @yamlKey required Uint8List certificateFingerprint,
+    @yamlRequired required String profileId,
+    @yamlRequired required Uint8List certificateSerialNumber,
   }) = _UploadCache;
 
   factory UploadCache.fromJson(Map<String, dynamic> json) =>

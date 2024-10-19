@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yaml/yaml.dart';
 
 import 'github_target.dart';
+import 'secret_names.dart';
 import 'upload_cache.dart';
 import 'yaml_serializable.dart';
 
@@ -14,8 +15,9 @@ part 'xport_config.g.dart';
 sealed class XPortConfig with _$XPortConfig {
   @yamlSerializable
   const factory XPortConfig({
-    @yamlKey required GitHubTarget target,
-    @yamlKey required String accessToken,
+    @yamlRequired required GitHubTarget target,
+    @yamlRequired required String accessToken,
+    @Default(SecretNames.defaultNames) SecretNames secrets,
     UploadCache? cache,
   }) = _XPortConfig;
 

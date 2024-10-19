@@ -11,20 +11,20 @@ part 'github_target.g.dart';
 sealed class GitHubTarget with _$GitHubTarget {
   @yamlSerializable
   const factory GitHubTarget.org(
-    @yamlKey String org,
+    @yamlRequired String org,
   ) = GitHubTargetOrg;
 
   @yamlSerializable
   const factory GitHubTarget.repo(
-    @yamlKey String owner,
-    @yamlKey String repo,
+    @yamlRequired String owner,
+    @yamlRequired String repo,
   ) = GitHubTargetRepo;
 
   @yamlSerializable
   const factory GitHubTarget.env(
-    @yamlKey String owner,
-    @yamlKey String repo,
-    @yamlKey String env,
+    @yamlRequired String owner,
+    @yamlRequired String repo,
+    @yamlRequired String env,
   ) = GitHubTargetEnv;
 
   factory GitHubTarget.fromJson(Map<String, dynamic> json) =>

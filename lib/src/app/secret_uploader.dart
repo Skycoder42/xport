@@ -12,13 +12,11 @@ import '../config/models/xport_config.dart';
 
 @injectable
 class SecretUploader {
-  static const _profileSecretName = 'PROVISIONING_PROFILE';
-  static const _identitySecretName = 'SIGNING_IDENTITY';
-  static const _identityPassphraseSecretName = 'SIGNING_IDENTITY_PASSPHRASE';
-
   final XPortConfig _config;
   final GithubClient _githubClient;
   final Sodium _sodium;
+
+  PublicKey? _cachedPublicKey;
 
   SecretUploader(
     this._config,
@@ -26,8 +24,17 @@ class SecretUploader {
     this._sodium,
   );
 
-  Future<void> upload({
-    required Uint8List profileBytes,
+  Future<void> uploadProvisioningProfile(Uint8List profileBytes) async {
+    final publicKey = await _loadPublicKey(_config.target);
+    await _uploadSecret(
+      _config.target,
+      publicKey,
+      _config.secrets.profile,
+      base64.encode(profileBytes),
+    );
+  }
+
+  Future<void> uploadSigningIdentity({
     required Uint8List identityBytes,
     required String identityPassphrase,
   }) async {
@@ -35,44 +42,37 @@ class SecretUploader {
     await _uploadSecret(
       _config.target,
       publicKey,
-      _profileSecretName,
-      profileBytes,
+      _config.secrets.identity,
+      base64.encode(identityBytes),
     );
     await _uploadSecret(
       _config.target,
       publicKey,
-      _identitySecretName,
-      identityBytes,
-    );
-    await _uploadSecret(
-      _config.target,
-      publicKey,
-      _identityPassphraseSecretName,
-      utf8.encode(identityPassphrase),
+      _config.secrets.identityPassphrase,
+      identityPassphrase,
     );
   }
 
-  Future<PublicKey> _loadPublicKey(GitHubTarget target) async {
-    switch (target) {
-      case GitHubTargetOrg(:final org):
-        return _githubClient.getOrganisationPublicKey(org);
-      case GitHubTargetRepo(:final owner, :final repo):
-        return _githubClient.getRepositoryPublicKey(owner, repo);
-      case GitHubTargetEnv(:final owner, :final repo, :final env):
-        return _githubClient.getEnvironmentPublicKey(owner, repo, env);
-    }
-  }
+  Future<PublicKey> _loadPublicKey(GitHubTarget target) async =>
+      _cachedPublicKey ??= switch (target) {
+        GitHubTargetOrg(:final org) =>
+          await _githubClient.getOrganisationPublicKey(org),
+        GitHubTargetRepo(:final owner, :final repo) =>
+          await _githubClient.getRepositoryPublicKey(owner, repo),
+        GitHubTargetEnv(:final owner, :final repo, :final env) =>
+          await _githubClient.getEnvironmentPublicKey(owner, repo, env)
+      };
 
   Future<void> _uploadSecret(
     GitHubTarget target,
     PublicKey publicKey,
     String secretName,
-    Uint8List secret,
+    String secret,
   ) async {
     final encryptedSecret = EncryptedSecret(
       keyId: publicKey.keyId,
       encryptedValue: _sodium.crypto.box.seal(
-        message: secret,
+        message: utf8.encode(secret),
         publicKey: publicKey.key,
       ),
     );

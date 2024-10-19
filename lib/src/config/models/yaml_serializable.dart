@@ -6,4 +6,4 @@ const yamlSerializable = JsonSerializable(
   disallowUnrecognizedKeys: true,
 );
 
-const yamlKey = JsonKey(required: true, disallowNullValue: true);
+const yamlRequired = JsonKey(required: true, disallowNullValue: true);
