@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../converters/binary_converter.dart';
+import '../../../util/converters/binary_converter.dart';
 import 'key_id.dart';
 
 part 'public_key.freezed.dart';

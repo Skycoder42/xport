@@ -1,8 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-const accessToken = Named('accessToken');
-const projectDir = Named('projectDir');
-const gitHubTarget = Named('gitHubTarget');
+const projectDirRef = Named('projectDir');
 
 @InjectableInit(
   preferRelativeImports: true,

@@ -28,8 +28,8 @@ class SigningConfigLoader {
     this._gitTool,
     this._flutterTool,
     this._xCodeBuildTool,
-    @projectDir String projectDir,
-  ) : _projectDir = Directory(projectDir);
+    @projectDirRef this._projectDir,
+  );
 
   Future<void> configureProject() async {
     _logger.info('Pulling and updating project configuration');

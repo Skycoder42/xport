@@ -5,65 +5,17 @@ import 'package:logging/logging.dart';
 
 part 'options.g.dart';
 
-enum GithubSecretsTarget {
-  org,
-  repo,
-  env;
-}
-
 @CliOptions()
 class Options {
-  static const _accessTokenEnvVar = 'GITHUB_ACCESS_TOKEN';
-
   @CliOption(
+    name: 'project-dir',
     abbr: 'd',
     valueHelp: 'path',
-    help: 'The directory of the flutter project to '
+    help: 'The directories of the flutter projects to '
         'extract the signing data from.',
     provideDefaultToOverride: true,
   )
-  final String projectDir;
-
-  @CliOption(
-    abbr: 't',
-    valueHelp: 'token',
-    help: 'The personal access <token> that should be used access GitHub. '
-        'If not specified, the tool looks for an environment variable named '
-        '"$_accessTokenEnvVar".',
-    provideDefaultToOverride: true,
-  )
-  final String accessToken;
-
-  @CliOption(
-    abbr: 'T',
-    defaultsTo: GithubSecretsTarget.repo,
-    help: 'Specify where the secret files should be uploaded to.',
-  )
-  final GithubSecretsTarget secretsTarget;
-
-  @CliOption(
-    abbr: 'O',
-    valueHelp: 'organization',
-    help: 'The GitHub organization to publish the secrets to.\n'
-        '(Required if secrets-target is "org")',
-  )
-  final String? org;
-
-  @CliOption(
-    abbr: 'R',
-    valueHelp: 'repoSlug',
-    help: 'The GitHub repository slug (<owner>/<repo>) to publish the secrets '
-        'to.\n(Required if secrets-target is "repo" or "env")',
-  )
-  final String? repoSlug;
-
-  @CliOption(
-    abbr: 'E',
-    valueHelp: 'environment',
-    help: 'The GitHub repository environment to publish the secrets to.\n'
-        '(Required if secrets-target is "env")',
-  )
-  final String? env;
+  final List<String> projectDirs;
 
   @CliOption(
     abbr: 'l',
@@ -95,12 +47,7 @@ class Options {
   final bool help;
 
   const Options({
-    required this.projectDir,
-    required this.accessToken,
-    required this.secretsTarget,
-    required this.org,
-    required this.repoSlug,
-    required this.env,
+    required this.projectDirs,
     required this.logLevel,
     this.help = false,
   });
@@ -115,9 +62,7 @@ extension ArgParserX on ArgParser {
     }());
     _$populateOptionsParser(
       this,
-      accessTokenDefaultOverride:
-          Platform.environment[Options._accessTokenEnvVar],
-      projectDirDefaultOverride: Directory.current.path,
+      projectDirsDefaultOverride: [Directory.current.path],
       logLevelDefaultOverride: defaultLevelOverride,
     );
   }

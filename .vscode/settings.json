@@ -6,6 +6,8 @@
     "nullptr",
     "PKCS",
     "xcode",
-    "xcodebuild"
+    "xcodebuild",
+    "xport",
+    "xporter"
   ]
 }

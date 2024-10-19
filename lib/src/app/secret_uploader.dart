@@ -7,8 +7,8 @@ import 'package:sodium/sodium.dart';
 import '../apis/github/github_client.dart';
 import '../apis/github/models/encrypted_secret.dart';
 import '../apis/github/models/public_key.dart';
-import '../cli/dependencies.dart';
-import 'models/github_target.dart';
+import '../config/models/github_target.dart';
+import '../config/models/xport_config.dart';
 
 @injectable
 class SecretUploader {
@@ -16,12 +16,12 @@ class SecretUploader {
   static const _identitySecretName = 'SIGNING_IDENTITY';
   static const _identityPassphraseSecretName = 'SIGNING_IDENTITY_PASSPHRASE';
 
-  final GitHubTarget _target;
+  final XPortConfig _config;
   final GithubClient _githubClient;
   final Sodium _sodium;
 
   SecretUploader(
-    @gitHubTarget this._target,
+    this._config,
     this._githubClient,
     this._sodium,
   );
@@ -31,11 +31,21 @@ class SecretUploader {
     required Uint8List identityBytes,
     required String identityPassphrase,
   }) async {
-    final publicKey = await _loadPublicKey(_target);
-    await _uploadSecret(_target, publicKey, _profileSecretName, profileBytes);
-    await _uploadSecret(_target, publicKey, _identitySecretName, identityBytes);
+    final publicKey = await _loadPublicKey(_config.target);
     await _uploadSecret(
-      _target,
+      _config.target,
+      publicKey,
+      _profileSecretName,
+      profileBytes,
+    );
+    await _uploadSecret(
+      _config.target,
+      publicKey,
+      _identitySecretName,
+      identityBytes,
+    );
+    await _uploadSecret(
+      _config.target,
       publicKey,
       _identityPassphraseSecretName,
       utf8.encode(identityPassphrase),

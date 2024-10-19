@@ -4,7 +4,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../cli/dependencies.dart';
+import '../../config/models/xport_config.dart';
 import '../../logging/logging_parser_error_logger.dart';
 import 'models/encrypted_secret.dart';
 import 'models/public_key.dart';
@@ -19,11 +19,11 @@ class GithubClient extends __GitHubClientBase {
   };
 
   factory GithubClient({
-    @accessToken required String accessToken,
+    required XPortConfig config,
   }) =>
       GithubClient.withOptions(
         BaseOptions(),
-        accessToken: accessToken,
+        accessToken: config.accessToken,
         errorLogger: LoggingParserErrorLogger('GithubClient'),
       );
 

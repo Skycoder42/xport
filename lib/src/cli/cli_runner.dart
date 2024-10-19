@@ -11,41 +11,46 @@ import '../logging/console_log_consumer.dart';
 import '../logging/dev_log_consumer.dart';
 import 'dependencies.config.dart';
 import 'options.dart';
-import 'options_module.dart';
+import 'project_module.dart';
 
 class CliRunner {
-  final GetIt _di;
   final _logger = Logger('CliRunner');
 
-  CliRunner([GetIt? di]) : _di = di ?? GetIt.I;
+  CliRunner();
 
   Future<void> call(List<String> args) async {
-    _configureLoggingPre();
-    try {
-      final options = _parseArgs(args);
-      _configureLoggingPost(options);
-      await _configureDi(options);
-
-      await _di.get<XPorter>().updateSecrets();
-
-      // ignore: avoid_catches_without_on_clauses
-    } catch (e, s) {
-      _logger.shout('Unhandled exception', e, s);
+    final options = await _parseArguments(args);
+    var failCnt = 0;
+    for (final projectDir in options.projectDirs) {
+      if (!await _runForProject(projectDir)) {
+        ++failCnt;
+      }
     }
+    exitCode = failCnt;
   }
 
-  Options _parseArgs(List<String> args) {
-    final parser = ArgParser(
-      usageLineLength: stdout.hasTerminal ? stdout.terminalColumns : null,
-    )..configure();
+  Future<Options> _parseArguments(List<String> args) async {
+    try {
+      _configureLoggingPre();
 
-    final result = parser.parse(args);
-    if (result['help'] as bool) {
-      stdout.writeln(parser.usage);
-      exit(0);
+      final parser = ArgParser(
+        usageLineLength: stdout.hasTerminal ? stdout.terminalColumns : null,
+      )..configure();
+
+      final result = parser.parse(args);
+      if (result['help'] as bool) {
+        stdout.writeln(parser.usage);
+        exit(0);
+      }
+
+      final options = result.toOptions();
+      _configureLoggingPost(options);
+      return options;
+    } on ArgParserException catch (e) {
+      stderr.writeln(e.message);
+      await stderr.flush();
+      exit(127);
     }
-
-    return result.toOptions();
   }
 
   void _configureLoggingPre() {
@@ -61,8 +66,22 @@ class CliRunner {
     Logger.root.level = options.logLevel;
   }
 
-  Future<void> _configureDi(Options options) async {
-    setOptions(options);
-    await _di.init();
+  Future<bool> _runForProject(String projectDir) async {
+    final di = GetIt.asNewInstance();
+    try {
+      _logger.info('========== Processing $projectDir ==========');
+
+      setProjectDir(Directory(projectDir));
+      await di.init();
+      await di.get<XPorter>().updateSecrets();
+      return true;
+
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      _logger.shout('Unhandled exception', e, s);
+      return false;
+    } finally {
+      await di.reset();
+    }
   }
 }
