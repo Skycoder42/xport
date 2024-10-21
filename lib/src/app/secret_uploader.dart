@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:sodium/sodium.dart';
 
 import '../apis/github/github_client.dart';
@@ -15,6 +16,7 @@ class SecretUploader {
   final XPortConfig _config;
   final GithubClient _githubClient;
   final Sodium _sodium;
+  final _logger = Logger('SecretUploader');
 
   PublicKey? _cachedPublicKey;
 
@@ -79,12 +81,14 @@ class SecretUploader {
 
     switch (target) {
       case GitHubTargetOrg(:final org):
+        _logger.finest('Updating secret $secretName for $org');
         await _githubClient.putOrganisationSecret(
           org,
           secretName,
           encryptedSecret,
         );
       case GitHubTargetRepo(:final owner, :final repo):
+        _logger.finest('Updating secret $secretName for $owner/$repo');
         await _githubClient.putRepositorySecret(
           owner,
           repo,
@@ -92,6 +96,7 @@ class SecretUploader {
           encryptedSecret,
         );
       case GitHubTargetEnv(:final owner, :final repo, :final env):
+        _logger.finest('Updating secret $secretName for $env@$owner/$repo');
         await _githubClient.putEnvironmentSecret(
           owner,
           repo,

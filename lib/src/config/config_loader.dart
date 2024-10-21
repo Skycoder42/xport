@@ -54,7 +54,7 @@ class ConfigLoader {
   Future<void> updateCache(UploadCache cache) async {
     final configFile = _getConfigFile();
     final configString = await configFile.readAsString();
-    final editor = YamlEditor(configString)..update(['cache'], cache);
+    final editor = YamlEditor(configString)..update(['cache'], cache.toJson());
     await configFile.writeAsString(editor.toString());
   }
 

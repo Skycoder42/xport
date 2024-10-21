@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:sodium/sodium.dart';
 
@@ -23,6 +25,7 @@ class XPorter {
   final Sodium _sodium;
   final SecretUploader _secretUploader;
   final ConfigLoader _configLoader;
+  final _logger = Logger('XPorter');
 
   XPorter(
     this._config,
@@ -42,17 +45,28 @@ class XPorter {
     final serialNumber = await _uploadIdentityIfModified(
       signingConfig.signingIdentity,
     );
+    _logger.fine('Updating persistent cache');
     await _updateCache(profileId, serialNumber);
   }
 
   Future<String> _uploadProfileIfModified(String profileId) async {
     if (profileId == _config.cache?.profileId) {
+      _logger.fine('Skipping Provisioning Profile, id has not changed');
       return profileId;
     }
 
+    _logger
+      ..fine(
+        'Provisioning Profile id was ${_config.cache?.profileId}, '
+        'was updated to $profileId. Starting export and upload.',
+      )
+      ..finer('Resolving file...');
     final profile = _getProfile(profileId);
+    _logger.finer('Reading file contents...');
     final profileBytes = await profile.readAsBytes();
+    _logger.finer('Uploading to GitHub...');
     await _secretUploader.uploadProvisioningProfile(profileBytes);
+    _logger.finer('Done');
     return profileId;
   }
 
@@ -73,16 +87,28 @@ class XPorter {
   Future<Uint8List> _uploadIdentityIfModified(String subject) async {
     final identity = _getIdentity(subject);
     final serialNumber = identity.copyCertificate().serialNumber;
-    if (serialNumber == _config.cache?.certificateSerialNumber) {
+    final serialNumberUnchanged = const ListEquality<int>()
+        .equals(serialNumber, _config.cache?.certificateSerialNumber);
+    if (serialNumberUnchanged) {
+      _logger.fine('Skipping Signing Identity, serial number has not changed');
       return serialNumber;
     }
 
+    _logger
+      ..fine(
+        'Signing Identity serial number was '
+        '${_config.cache?.certificateSerialNumber}, '
+        'was updated to $serialNumber. Starting export and upload.',
+      )
+      ..finer('Exporting PKCS#12 from keychain...');
     final passphrase = base64.encode(_sodium.randombytes.buf(24));
     final identityPfxBytes = identity.export(passphrase);
+    _logger.finer('Uploading to GitHub...');
     await _secretUploader.uploadSigningIdentity(
       identityBytes: identityPfxBytes,
       identityPassphrase: passphrase,
     );
+    _logger.finer('Done');
     return serialNumber;
   }
 
