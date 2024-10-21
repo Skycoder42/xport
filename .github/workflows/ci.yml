@@ -18,11 +18,11 @@ jobs:
       unitTestPaths: ""
       panaScoreThreshold: 10
 
-  # cd:
-  #   name: CD
-  #   needs:
-  #     - ci
-  #   uses: Skycoder42/dart_test_tools/.github/workflows/release.yml@main
-  #   secrets:
-  #     githubToken: ${{ secrets.GH_PAT }}
+  cd:
+    name: CD
+    needs:
+      - ci
+    uses: Skycoder42/dart_test_tools/.github/workflows/release.yml@main
+    secrets:
+      githubToken: ${{ secrets.GH_PAT }}
 
