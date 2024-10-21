@@ -8,7 +8,9 @@ import '../cli/options.dart';
 
 class SetupLaunchd {
   static const _agentId = 'de.skycoder42.xport';
-  static const _templateReplaceKey = '%{ARGUMENTS_PLACEHOLDER}';
+  static const _argumentsReplaceKey = '%{ARGUMENTS_PLACEHOLDER}';
+  static const _logsDirReplaceKey = '%{LOGS_DIR_PLACEHOLDER}';
+  static const _flutterPathReplaceKey = '%{FLUTTER_PATH_PLACEHOLDER}';
 
   final ProcessRunner _processRunner;
   final _logger = Logger('SetupLaunchd');
@@ -17,6 +19,21 @@ class SetupLaunchd {
 
   Future<void> setup(Options options) async {
     final home = Platform.environment['HOME']!;
+    final pubCache =
+        Platform.environment['PUB_CACHE'] ?? path.join(home, '.pub-cache');
+
+    final logsDir = path.join(home, 'Library/Logs/xport');
+    await Directory(logsDir).create(recursive: true);
+
+    final flutterLocation =
+        await _processRunner.streamLines('which', ['flutter']).single;
+    final flutterPath = path.canonicalize(path.dirname(flutterLocation));
+
+    final arguments = [
+      path.canonicalize(path.join(pubCache, 'bin', 'xport')),
+      ..._mapArguments(options),
+    ].map(_createArgument).join('\n');
+
     final launchFile = File(
       path.join(
         home,
@@ -24,10 +41,10 @@ class SetupLaunchd {
         '$_agentId.plist',
       ),
     );
-    final launchConfig = _launchConfigTemplate.replaceFirst(
-      _templateReplaceKey,
-      _mapArguments(options).join('\n'),
-    );
+    final launchConfig = _launchConfigTemplate
+        .replaceAll(_argumentsReplaceKey, arguments)
+        .replaceAll(_logsDirReplaceKey, logsDir)
+        .replaceAll(_flutterPathReplaceKey, flutterPath);
     await launchFile.writeAsString(launchConfig, flush: true);
     _logger.fine('Created launch agent at ${launchFile.path}');
 
@@ -38,34 +55,37 @@ class SetupLaunchd {
 
   Iterable<String> _mapArguments(Options options) sync* {
     for (final projectDir in options.projectDirs) {
-      yield _createArgument('--project-dir');
-      yield _createArgument(path.canonicalize(projectDir));
+      yield '--project-dir';
+      yield path.canonicalize(projectDir);
     }
-    yield _createArgument('--log-level');
-    yield _createArgument(options.logLevel.name);
+    yield '--log-level';
+    yield options.logLevel.name;
   }
 
-  String _createArgument(String arg) => '		<string>$arg</string>';
+  String _createArgument(String arg) => '    <string>$arg</string>';
 
-  static final _launchConfigTemplate = '''
+  static const _launchConfigTemplate = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Label</key>
-	<string>$_agentId</string>
-	<key>Program</key>
-  <string>${Platform.resolvedExecutable}</string>
-	<key>ProgramArguments</key>
-	<array>
-$_templateReplaceKey
-	</array>
-	<key>ProcessType</key>
-	<string>Background</string>
-	<key>StandardErrorPath</key>
-	<string>\$HOME/Library/Logs/xport/err.log</string>
-	<key>StandardOutPath</key>
-	<string>\$HOME/Library/Logs/xport/out.log</string>
+  <key>Label</key>
+  <string>$_agentId</string>
+  <key>ProgramArguments</key>
+  <array>
+$_argumentsReplaceKey
+  </array>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardErrorPath</key>
+  <string>$_logsDirReplaceKey/err.log</string>
+  <key>StandardOutPath</key>
+  <string>$_logsDirReplaceKey/out.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>$_flutterPathReplaceKey:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin</string>
+  </dict>
   <key>StartCalendarInterval</key>
   <dict>
     <key>Hour</key>

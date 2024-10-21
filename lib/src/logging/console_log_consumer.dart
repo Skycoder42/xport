@@ -22,7 +22,7 @@ class ConsoleLogConsumer implements StreamConsumer<LogRecord> {
         _ => AnsiPen(),
       };
 
-      stdout.writeln(pen(logRecord));
+      stdout.writeln(pen('${logRecord.time.toIso8601String()} $logRecord'));
       if (logRecord.error case final Object error) {
         stdout.writeln(pen(error));
       }
