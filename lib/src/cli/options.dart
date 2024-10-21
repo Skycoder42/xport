@@ -18,6 +18,13 @@ class Options {
   final List<String> projectDirs;
 
   @CliOption(
+    negatable: false,
+    help: 'If specified, generate a launchd agent for the given projects '
+        'and log level.',
+  )
+  final bool setupLaunchd;
+
+  @CliOption(
     abbr: 'l',
     convert: _stringToLevel,
     allowed: [
@@ -49,6 +56,7 @@ class Options {
   const Options({
     required this.projectDirs,
     required this.logLevel,
+    this.setupLaunchd = false,
     this.help = false,
   });
 }

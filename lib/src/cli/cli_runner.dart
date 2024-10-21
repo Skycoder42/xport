@@ -6,6 +6,7 @@ import 'package:args/args.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
+import '../app/setup_launchd.dart';
 import '../app/xporter.dart';
 import '../logging/console_log_consumer.dart';
 import '../logging/dev_log_consumer.dart';
@@ -20,6 +21,12 @@ class CliRunner {
 
   Future<void> call(List<String> args) async {
     final options = await _parseArguments(args);
+
+    if (options.setupLaunchd) {
+      await _setupLaunchd(options);
+      return;
+    }
+
     var failCnt = 0;
     for (final projectDir in options.projectDirs) {
       if (!await _runForProject(projectDir)) {
@@ -82,6 +89,19 @@ class CliRunner {
       return false;
     } finally {
       await di.reset();
+    }
+  }
+
+  Future<void> _setupLaunchd(Options options) async {
+    try {
+      _logger.info('========== Creating launchd daemon ==========');
+
+      await SetupLaunchd().setup(options);
+
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      _logger.shout('Unhandled exception', e, s);
+      exitCode = 1;
     }
   }
 }
