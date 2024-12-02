@@ -18,6 +18,7 @@ sealed class XPortConfig with _$XPortConfig {
     @yamlRequired required GitHubTarget target,
     @yamlRequired required String accessToken,
     @Default(SecretNames.defaultNames) SecretNames secrets,
+    String? setupScript,
     UploadCache? cache,
   }) = _XPortConfig;
 

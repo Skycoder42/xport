@@ -1,6 +1,6 @@
 name: xport
 description: A cli tool to export Apple provisioning profiles and signing certificates and upload them to GitHub Secrets.
-version: 1.0.1
+version: 1.1.0
 repository: https://github.com/Skycoder42/xport
 
 environment:
@@ -21,14 +21,15 @@ dependencies:
   dio: ^5.7.0
   ffi: ^2.1.3
   freezed_annotation: ^2.4.4
-  get_it: ^8.0.0
+  get_it: ^8.0.2
   injectable: ^2.5.0
   json_annotation: ^4.9.0
   logging: ^1.3.0
   meta: ^1.16.0
   path: ^1.9.1
+  posix: ^6.0.1
   retrofit: ^4.4.1
-  sodium: ^3.4.0
+  sodium: ^3.4.3
   yaml: ^3.1.2
   yaml_edit: ^2.2.1
 
@@ -38,11 +39,11 @@ dev_dependencies:
   custom_lint: ^0.6.8
   dart_pre_commit: ^5.4.0
   dart_test_tools: ^6.0.0
-  ffigen: ">=14.0.1 <17.0.0"
+  ffigen: ^16.0.0
   freezed: ^2.5.7
   injectable_generator: ^2.6.2
-  json_serializable: ^6.8.0
-  retrofit_generator: ^9.1.3
+  json_serializable: ^6.9.0
+  retrofit_generator: ^9.1.5
 
 dart_pre_commit:
   flutter-compat: false

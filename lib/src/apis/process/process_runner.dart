@@ -12,12 +12,14 @@ class ProcessRunner {
     String executable,
     List<String> arguments, {
     Directory? workingDirectory,
+    bool runInShell = false,
   }) async* {
     _logger.finer('Running $executable ${arguments.join(' ')}');
     final proc = await Process.start(
       executable,
       arguments,
       workingDirectory: workingDirectory?.path,
+      runInShell: runInShell,
     );
     final stderrSub = proc.stderr
         .transform(utf8.decoder)
@@ -47,10 +49,12 @@ class ProcessRunner {
     String executable,
     List<String> arguments, {
     Directory? workingDirectory,
+    bool runInShell = false,
   }) async =>
       await streamLines(
         executable,
         arguments,
         workingDirectory: workingDirectory,
+        runInShell: runInShell,
       ).drain();
 }

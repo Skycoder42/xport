@@ -9,6 +9,7 @@ import '../apis/process/xcode_build_tool.dart';
 import '../cli/dependencies.dart';
 import 'models/signing_config.dart';
 import 'models/signing_config_missing_exception.dart';
+import 'setup_runner.dart';
 
 @injectable
 class SigningConfigLoader {
@@ -19,6 +20,7 @@ class SigningConfigLoader {
   );
 
   final GitTool _gitTool;
+  final SetupRunner _setupRunner;
   final FlutterTool _flutterTool;
   final XCodeBuildTool _xCodeBuildTool;
   final Directory _projectDir;
@@ -26,6 +28,7 @@ class SigningConfigLoader {
 
   SigningConfigLoader(
     this._gitTool,
+    this._setupRunner,
     this._flutterTool,
     this._xCodeBuildTool,
     @projectDirRef this._projectDir,
@@ -34,6 +37,7 @@ class SigningConfigLoader {
   Future<void> configureProject() async {
     _logger.info('Pulling and updating project configuration');
     await _gitTool.pull(workingDirectory: _projectDir);
+    await _setupRunner.runSetupScript(workingDirectory: _projectDir);
     await _flutterTool.pub('get', workingDirectory: _projectDir);
     await _flutterTool.build(
       'ios',

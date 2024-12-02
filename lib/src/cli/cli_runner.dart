@@ -5,7 +5,9 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 
+import '../apis/process/terminal_notifier_tool.dart';
 import '../app/setup_launchd.dart';
 import '../app/xporter.dart';
 import '../logging/console_log_consumer.dart';
@@ -81,11 +83,34 @@ class CliRunner {
       setProjectDir(Directory(projectDir));
       await di.init();
       await di.get<XPorter>().updateSecrets();
+
+      unawaited(
+        di.get<TerminalNotifierTool>().notify(
+              title: 'XPorter',
+              subTitle: path.canonicalize(projectDir),
+              contentImage: Uri.parse(
+                'https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png',
+              ),
+              message: 'Successfully updated singing configurations.',
+            ),
+      );
       return true;
 
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
       _logger.shout('Unhandled exception', e, s);
+      final home = Platform.environment['HOME'];
+      unawaited(
+        di.get<TerminalNotifierTool>().notify(
+              title: 'XPorter',
+              subTitle: path.canonicalize(projectDir),
+              contentImage: Uri.parse(
+                'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png',
+              ),
+              message: e.toString(),
+              onOpen: Directory('$home/Library/Logs/xport'),
+            ),
+      );
       return false;
     } finally {
       await di.reset();
