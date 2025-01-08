@@ -11,6 +11,7 @@ class SetupLaunchd {
   static const _argumentsReplaceKey = '%{ARGUMENTS_PLACEHOLDER}';
   static const _logsDirReplaceKey = '%{LOGS_DIR_PLACEHOLDER}';
   static const _flutterPathReplaceKey = '%{FLUTTER_PATH_PLACEHOLDER}';
+  static const _notifierPathReplaceKey = '%{NOTIFIER_PATH_PLACEHOLDER}';
 
   final ProcessRunner _processRunner;
   final _logger = Logger('SetupLaunchd');
@@ -25,9 +26,8 @@ class SetupLaunchd {
     final logsDir = path.join(home, 'Library/Logs/xport');
     await Directory(logsDir).create(recursive: true);
 
-    final flutterLocation =
-        await _processRunner.streamLines('which', ['flutter']).single;
-    final flutterPath = path.canonicalize(path.dirname(flutterLocation));
+    final flutterPath = await _getExecutableDirectory('flutter');
+    final notifierPath = await _getExecutableDirectory('terminal-notifier');
 
     final arguments = [
       path.canonicalize(path.join(pubCache, 'bin', 'xport')),
@@ -44,7 +44,8 @@ class SetupLaunchd {
     final launchConfig = _launchConfigTemplate
         .replaceAll(_argumentsReplaceKey, arguments)
         .replaceAll(_logsDirReplaceKey, logsDir)
-        .replaceAll(_flutterPathReplaceKey, flutterPath);
+        .replaceAll(_flutterPathReplaceKey, flutterPath)
+        .replaceAll(_notifierPathReplaceKey, notifierPath);
     await launchFile.writeAsString(launchConfig, flush: true);
     _logger.fine('Created launch agent at ${launchFile.path}');
 
@@ -63,6 +64,11 @@ class SetupLaunchd {
   }
 
   String _createArgument(String arg) => '    <string>$arg</string>';
+
+  Future<String> _getExecutableDirectory(String name) async {
+    final location = await _processRunner.streamLines('which', [name]).single;
+    return path.canonicalize(path.dirname(location));
+  }
 
   static const _launchConfigTemplate = '''
 <?xml version="1.0" encoding="UTF-8"?>
@@ -84,7 +90,7 @@ $_argumentsReplaceKey
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
-    <string>$_flutterPathReplaceKey:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin</string>
+    <string>$_flutterPathReplaceKey:$_notifierPathReplaceKey:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin</string>
   </dict>
   <key>StartCalendarInterval</key>
   <dict>
