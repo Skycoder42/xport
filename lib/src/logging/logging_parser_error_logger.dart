@@ -8,11 +8,7 @@ class LoggingParserErrorLogger implements ParseErrorLogger {
   LoggingParserErrorLogger(String name) : _logger = Logger(name);
 
   @override
-  void logError(
-    Object error,
-    StackTrace stackTrace,
-    RequestOptions options,
-  ) =>
+  void logError(Object error, StackTrace stackTrace, RequestOptions options) =>
       _logger.severe(
         'Failed to decode ${options.responseType.name} response',
         error,

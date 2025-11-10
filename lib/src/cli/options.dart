@@ -11,7 +11,8 @@ class Options {
     name: 'project-dir',
     abbr: 'd',
     valueHelp: 'path',
-    help: 'The directories of the flutter projects to '
+    help:
+        'The directories of the flutter projects to '
         'extract the signing data from.',
     provideDefaultToOverride: true,
   )
@@ -19,7 +20,8 @@ class Options {
 
   @CliOption(
     negatable: false,
-    help: 'If specified, generate a launchd agent for the given projects '
+    help:
+        'If specified, generate a launchd agent for the given projects '
         'and log level.',
   )
   final bool setupLaunchd;
@@ -46,11 +48,7 @@ class Options {
   )
   final Level logLevel;
 
-  @CliOption(
-    abbr: 'h',
-    negatable: false,
-    help: 'Show this help.',
-  )
+  @CliOption(abbr: 'h', negatable: false, help: 'Show this help.')
   final bool help;
 
   const Options({

@@ -12,8 +12,9 @@ abstract base class CFType<T extends Pointer<NativeType>>
   final T ref;
 
   NativeFinalizer get _nativeFinalizer =>
-      _nativeFinalizers[securityFramework] ??=
-          NativeFinalizer(securityFramework.CFReleasePtr);
+      _nativeFinalizers[securityFramework] ??= NativeFinalizer(
+        securityFramework.CFReleasePtr,
+      );
 
   CFType(this.securityFramework, this.ref) {
     _nativeFinalizer.attach(this, ref.cast(), detach: this);

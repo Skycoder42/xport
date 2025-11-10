@@ -87,8 +87,10 @@ class XPorter {
   Future<Uint8List> _uploadIdentityIfModified(String subject) async {
     final identity = _getIdentity(subject);
     final serialNumber = identity.copyCertificate().serialNumber;
-    final serialNumberUnchanged = const ListEquality<int>()
-        .equals(serialNumber, _config.cache?.certificateSerialNumber);
+    final serialNumberUnchanged = const ListEquality<int>().equals(
+      serialNumber,
+      _config.cache?.certificateSerialNumber,
+    );
     if (serialNumberUnchanged) {
       _logger.fine('Skipping Signing Identity, serial number has not changed');
       return serialNumber;
@@ -125,10 +127,7 @@ class XPorter {
 
   Future<void> _updateCache(String profileId, Uint8List serialNumber) async {
     await _configLoader.updateCache(
-      UploadCache(
-        profileId: profileId,
-        certificateSerialNumber: serialNumber,
-      ),
+      UploadCache(profileId: profileId, certificateSerialNumber: serialNumber),
     );
   }
 }

@@ -50,11 +50,10 @@ class ProcessRunner {
     List<String> arguments, {
     Directory? workingDirectory,
     bool runInShell = false,
-  }) async =>
-      await streamLines(
-        executable,
-        arguments,
-        workingDirectory: workingDirectory,
-        runInShell: runInShell,
-      ).drain();
+  }) async => await streamLines(
+    executable,
+    arguments,
+    workingDirectory: workingDirectory,
+    runInShell: runInShell,
+  ).drain();
 }

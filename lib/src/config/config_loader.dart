@@ -22,9 +22,7 @@ abstract class ConfigModule {
 class ConfigLoader {
   final Directory projectDir;
 
-  ConfigLoader(
-    @projectDirRef this.projectDir,
-  );
+  ConfigLoader(@projectDirRef this.projectDir);
 
   Future<XPortConfig> load() async {
     final configFile = _getConfigFile();

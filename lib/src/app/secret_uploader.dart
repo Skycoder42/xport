@@ -20,11 +20,7 @@ class SecretUploader {
 
   PublicKey? _cachedPublicKey;
 
-  SecretUploader(
-    this._config,
-    this._githubClient,
-    this._sodium,
-  );
+  SecretUploader(this._config, this._githubClient, this._sodium);
 
   Future<void> uploadProvisioningProfile(Uint8List profileBytes) async {
     final publicKey = await _loadPublicKey(_config.target);
@@ -62,7 +58,7 @@ class SecretUploader {
         GitHubTargetRepo(:final owner, :final repo) =>
           await _githubClient.getRepositoryPublicKey(owner, repo),
         GitHubTargetEnv(:final owner, :final repo, :final env) =>
-          await _githubClient.getEnvironmentPublicKey(owner, repo, env)
+          await _githubClient.getEnvironmentPublicKey(owner, repo, env),
       };
 
   Future<void> _uploadSecret(

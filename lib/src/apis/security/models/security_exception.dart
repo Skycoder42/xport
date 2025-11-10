@@ -10,10 +10,7 @@ class SecurityException implements Exception {
   @override
   String toString() => 'SecurityException($osStatus): $message';
 
-  static void validateStatus(
-    CFArena arena,
-    int osStatus,
-  ) {
+  static void validateStatus(CFArena arena, int osStatus) {
     switch (osStatus) {
       case errSecSuccess:
         break;

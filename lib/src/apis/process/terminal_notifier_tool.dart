@@ -16,21 +16,14 @@ class TerminalNotifierTool {
     required String message,
     Uri? contentImage,
     FileSystemEntity? onOpen,
-  }) =>
-      _processRunner.run(
-        'terminal-notifier',
-        [
-          if (title != null) ...['-title', title],
-          if (subTitle != null) ...['-subtitle', subTitle],
-          '-message',
-          message,
-          if (contentImage != null) ...[
-            '-contentImage',
-            contentImage.toString(),
-          ],
-          '-sound',
-          'default',
-          if (onOpen != null) ...['-open', onOpen.uri.toString()],
-        ],
-      );
+  }) => _processRunner.run('terminal-notifier', [
+    if (title != null) ...['-title', title],
+    if (subTitle != null) ...['-subtitle', subTitle],
+    '-message',
+    message,
+    if (contentImage != null) ...['-contentImage', contentImage.toString()],
+    '-sound',
+    'default',
+    if (onOpen != null) ...['-open', onOpen.uri.toString()],
+  ]);
 }

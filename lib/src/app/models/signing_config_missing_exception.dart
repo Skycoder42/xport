@@ -12,15 +12,15 @@ class SigningConfigMissingException implements Exception {
   final String message;
 
   SigningConfigMissingException.build(this.kind)
-      : message = 'Not found in build output';
+    : message = 'Not found in build output';
 
   SigningConfigMissingException.profileFileMissing()
-      : kind = SigningConfigKind.provisioningProfile,
-        message = 'File does not exists';
+    : kind = SigningConfigKind.provisioningProfile,
+      message = 'File does not exists';
 
   SigningConfigMissingException.identityNotFound()
-      : kind = SigningConfigKind.signingIdentity,
-        message = 'Unable to find valid identity in keychain';
+    : kind = SigningConfigKind.signingIdentity,
+      message = 'Unable to find valid identity in keychain';
 
   @override
   String toString() => 'SigningConfigMissingException($kind): $message';

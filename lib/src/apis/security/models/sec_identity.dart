@@ -10,12 +10,12 @@ final class SecIdentity extends SecItem<SecIdentityRef> {
   SecIdentity(super.securityFramework, super.ref);
 
   SecCertificate copyCertificate() => securityFramework.withArena((arena) {
-        final certRefPtr = arena<SecCertificateRef>();
-        final result = securityFramework.SecIdentityCopyCertificate(
-          ref,
-          certRefPtr,
-        );
-        SecurityException.validateStatus(arena, result);
-        return SecCertificate(securityFramework, certRefPtr.value);
-      });
+    final certRefPtr = arena<SecCertificateRef>();
+    final result = securityFramework.SecIdentityCopyCertificate(
+      ref,
+      certRefPtr,
+    );
+    SecurityException.validateStatus(arena, result);
+    return SecCertificate(securityFramework, certRefPtr.value);
+  });
 }

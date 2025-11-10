@@ -35,11 +35,7 @@ class SetupLaunchd {
     ].map(_createArgument).join('\n');
 
     final launchFile = File(
-      path.join(
-        home,
-        'Library/LaunchAgents',
-        '$_agentId.plist',
-      ),
+      path.join(home, 'Library/LaunchAgents', '$_agentId.plist'),
     );
     final launchConfig = _launchConfigTemplate
         .replaceAll(_argumentsReplaceKey, arguments)
@@ -70,7 +66,8 @@ class SetupLaunchd {
     return path.canonicalize(path.dirname(location));
   }
 
-  static const _launchConfigTemplate = '''
+  static const _launchConfigTemplate =
+      '''
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

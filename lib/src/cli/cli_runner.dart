@@ -86,13 +86,13 @@ class CliRunner {
 
       unawaited(
         di.get<TerminalNotifierTool>().notify(
-              title: 'XPorter',
-              subTitle: path.canonicalize(projectDir),
-              contentImage: Uri.parse(
-                'https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png',
-              ),
-              message: 'Successfully updated singing configurations.',
-            ),
+          title: 'XPorter',
+          subTitle: path.canonicalize(projectDir),
+          contentImage: Uri.parse(
+            'https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png',
+          ),
+          message: 'Successfully updated singing configurations.',
+        ),
       );
       return true;
 
@@ -102,14 +102,14 @@ class CliRunner {
       final home = Platform.environment['HOME'];
       unawaited(
         di.get<TerminalNotifierTool>().notify(
-              title: 'XPorter',
-              subTitle: path.canonicalize(projectDir),
-              contentImage: Uri.parse(
-                'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png',
-              ),
-              message: e.toString(),
-              onOpen: Directory('$home/Library/Logs/xport'),
-            ),
+          title: 'XPorter',
+          subTitle: path.canonicalize(projectDir),
+          contentImage: Uri.parse(
+            'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png',
+          ),
+          message: e.toString(),
+          onOpen: Directory('$home/Library/Logs/xport'),
+        ),
       );
       return false;
     } finally {

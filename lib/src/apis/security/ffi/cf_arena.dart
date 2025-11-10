@@ -17,10 +17,12 @@ class CFArena extends Arena {
 
   CFException toCFException(CFErrorRef cfError) {
     final code = securityFramework.CFErrorGetCode(cfError);
-    final reason =
-        autoRelease(securityFramework.CFErrorCopyFailureReason(cfError));
-    final description =
-        autoRelease(securityFramework.CFErrorCopyDescription(cfError));
+    final reason = autoRelease(
+      securityFramework.CFErrorCopyFailureReason(cfError),
+    );
+    final description = autoRelease(
+      securityFramework.CFErrorCopyDescription(cfError),
+    );
     return CFException(code, toDartString(reason), toDartString(description));
   }
 
@@ -32,7 +34,8 @@ class CFArena extends Arena {
   }
 
   String toDartString(CFStringRef cfString) {
-    final bufferSize = securityFramework.CFStringGetMaximumSizeForEncoding(
+    final bufferSize =
+        securityFramework.CFStringGetMaximumSizeForEncoding(
           securityFramework.CFStringGetLength(cfString),
           CFStringBuiltInEncodings.kCFStringEncodingUTF8.value,
         ) +
@@ -52,25 +55,25 @@ class CFArena extends Arena {
 
   Uint8List toUint8List(CFDataRef cfData) =>
       securityFramework.CFDataGetBytePtr(cfData).cast<Uint8>().asTypedList(
-            securityFramework.CFDataGetLength(cfData),
-            finalizer: securityFramework.CFReleasePtr,
-            token: cfData.cast(),
-          );
+        securityFramework.CFDataGetLength(cfData),
+        finalizer: securityFramework.CFReleasePtr,
+        token: cfData.cast(),
+      );
 
   CFStringRef toCFString(String string) => autoRelease(
-        securityFramework.CFStringCreateWithCString(
-          nullptr,
-          string.toNativeUtf8(allocator: this).cast(),
-          CFStringBuiltInEncodings.kCFStringEncodingUTF8.value,
-        ),
-      );
+    securityFramework.CFStringCreateWithCString(
+      nullptr,
+      string.toNativeUtf8(allocator: this).cast(),
+      CFStringBuiltInEncodings.kCFStringEncodingUTF8.value,
+    ),
+  );
 
   CFDateRef toCFDate(DateTime date) => autoRelease(
-        securityFramework.CFDateCreate(
-          nullptr,
-          date.difference(DateTime.utc(2001)).inSeconds.toDouble(),
-        ),
-      );
+    securityFramework.CFDateCreate(
+      nullptr,
+      date.difference(DateTime.utc(2001)).inSeconds.toDouble(),
+    ),
+  );
 }
 
 extension SecurityFrameworkX on SecurityFramework {

@@ -10,9 +10,7 @@ part 'github_target.g.dart';
 @Freezed(unionKey: 'type')
 sealed class GitHubTarget with _$GitHubTarget {
   @yamlSerializable
-  const factory GitHubTarget.org(
-    @yamlRequired String org,
-  ) = GitHubTargetOrg;
+  const factory GitHubTarget.org(@yamlRequired String org) = GitHubTargetOrg;
 
   @yamlSerializable
   const factory GitHubTarget.repo(

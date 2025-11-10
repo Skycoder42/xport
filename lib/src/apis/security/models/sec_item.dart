@@ -13,21 +13,21 @@ abstract base class SecItem<T extends Pointer<NativeType>> extends CFType<T> {
   SecItem(super.securityFramework, super.ref);
 
   Uint8List export(String passphrase) => securityFramework.withArena((arena) {
-        final pfx = arena<CFDataRef>();
-        final params = arena<SecItemImportExportKeyParameters>();
-        params.ref
-          ..version = _secItemImportExportKeyParametersVersion
-          ..flagsAsInt = 0
-          ..passphrase = arena.toCFString(passphrase).cast();
+    final pfx = arena<CFDataRef>();
+    final params = arena<SecItemImportExportKeyParameters>();
+    params.ref
+      ..version = _secItemImportExportKeyParametersVersion
+      ..flags = 0
+      ..passphrase = arena.toCFString(passphrase).cast();
 
-        final result = securityFramework.SecItemExport(
-          ref.cast(),
-          SecExternalFormat.kSecFormatPKCS12,
-          SecItemImportExportFlags.none,
-          params,
-          pfx,
-        );
-        SecurityException.validateStatus(arena, result);
-        return arena.toUint8List(pfx.value);
-      });
+    final result = securityFramework.SecItemExport(
+      ref.cast(),
+      SecExternalFormat.kSecFormatPKCS12,
+      0,
+      params,
+      pfx,
+    );
+    SecurityException.validateStatus(arena, result);
+    return arena.toUint8List(pfx.value);
+  });
 }

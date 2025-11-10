@@ -18,9 +18,7 @@ class GithubClient extends __GitHubClientBase {
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
-  factory GithubClient({
-    required XPortConfig config,
-  }) =>
+  factory GithubClient({required XPortConfig config}) =>
       GithubClient.withOptions(
         BaseOptions(),
         accessToken: config.accessToken,
@@ -32,14 +30,14 @@ class GithubClient extends __GitHubClientBase {
     required String accessToken,
     ParseErrorLogger? errorLogger,
   }) : super(
-          Dio(
-            options
-              ..headers.addAll(_defaultHeaders)
-              ..headers[io.HttpHeaders.authorizationHeader] =
-                  'Bearer $accessToken',
-          ),
-          errorLogger: errorLogger,
-        );
+         Dio(
+           options
+             ..headers.addAll(_defaultHeaders)
+             ..headers[io.HttpHeaders.authorizationHeader] =
+                 'Bearer $accessToken',
+         ),
+         errorLogger: errorLogger,
+       );
 
   @disposeMethod
   void close({bool force = false}) => _dio.close();
@@ -48,9 +46,7 @@ class GithubClient extends __GitHubClientBase {
 @RestApi(baseUrl: 'https://api.github.com/')
 abstract class _GitHubClientBase {
   @GET('/orgs/{org}/actions/secrets/public-key')
-  Future<PublicKey> getOrganisationPublicKey(
-    @Path() String org,
-  );
+  Future<PublicKey> getOrganisationPublicKey(@Path() String org);
 
   @PUT('/orgs/{org}/actions/secrets/{secretName}')
   Future<void> putOrganisationSecret(

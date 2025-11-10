@@ -24,6 +24,5 @@ sealed class EncryptedSecret with _$EncryptedSecret {
   const EncryptedSecret._();
 
   @override
-  // ignore: unnecessary_overrides
-  Map<String, dynamic> toJson() => super.toJson();
+  Map<String, dynamic> toJson() => throw UnimplementedError();
 }

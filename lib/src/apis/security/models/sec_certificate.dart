@@ -9,17 +9,17 @@ final class SecCertificate extends SecItem<SecCertificateRef> {
   SecCertificate(super.securityFramework, super.ref);
 
   Uint8List get serialNumber => securityFramework.withArena((arena) {
-        final error = arena<CFErrorRef>();
-        final data = securityFramework.SecCertificateCopySerialNumberData(
-          ref,
-          error,
-        );
+    final error = arena<CFErrorRef>();
+    final data = securityFramework.SecCertificateCopySerialNumberData(
+      ref,
+      error,
+    );
 
-        if (error.value != nullptr) {
-          arena.autoRelease(data);
-          throw arena.toCFException(arena.autoRelease(error.value));
-        }
+    if (error.value != nullptr) {
+      arena.autoRelease(data);
+      throw arena.toCFException(arena.autoRelease(error.value));
+    }
 
-        return arena.toUint8List(data);
-      });
+    return arena.toUint8List(data);
+  });
 }

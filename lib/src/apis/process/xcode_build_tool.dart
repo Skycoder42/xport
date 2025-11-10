@@ -40,27 +40,19 @@ class XCodeBuildTool {
     String? derivedDataPath,
     bool allowProvisioningUpdates = false,
     Directory? workingDirectory,
-  }) =>
-      _processRunner.streamLines(
-        'xcodebuild',
-        [
-          command,
-          '-workspace',
-          workspace,
-          '-scheme',
-          scheme,
-          '-configuration',
-          configuration.value,
-          '-sdk',
-          sdk.value,
-          '-destination',
-          destination,
-          if (derivedDataPath != null) ...[
-            '-derivedDataPath',
-            derivedDataPath,
-          ],
-          if (allowProvisioningUpdates) '-allowProvisioningUpdates',
-        ],
-        workingDirectory: workingDirectory,
-      );
+  }) => _processRunner.streamLines('xcodebuild', [
+    command,
+    '-workspace',
+    workspace,
+    '-scheme',
+    scheme,
+    '-configuration',
+    configuration.value,
+    '-sdk',
+    sdk.value,
+    '-destination',
+    destination,
+    if (derivedDataPath != null) ...['-derivedDataPath', derivedDataPath],
+    if (allowProvisioningUpdates) '-allowProvisioningUpdates',
+  ], workingDirectory: workingDirectory);
 }

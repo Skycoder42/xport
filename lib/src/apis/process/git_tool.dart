@@ -11,8 +11,8 @@ class GitTool {
   GitTool(this._processRunner);
 
   Future<void> pull({Directory? workingDirectory}) => _processRunner.run(
-        'git',
-        const ['pull'],
-        workingDirectory: workingDirectory,
-      );
+    'git',
+    const ['pull'],
+    workingDirectory: workingDirectory,
+  );
 }

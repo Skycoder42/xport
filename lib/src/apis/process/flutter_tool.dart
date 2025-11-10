@@ -20,10 +20,8 @@ class FlutterTool {
 
   FlutterTool(this._processRunner);
 
-  Future<void> pub(String command, {Directory? workingDirectory}) => _run(
-        ['pub', command],
-        workingDirectory: workingDirectory,
-      );
+  Future<void> pub(String command, {Directory? workingDirectory}) =>
+      _run(['pub', command], workingDirectory: workingDirectory);
 
   Future<void> build(
     String buildTarget, {
@@ -31,32 +29,25 @@ class FlutterTool {
     FlutterBuildMode mode = FlutterBuildMode.release,
     File? target,
     Directory? workingDirectory,
-  }) =>
-      _run(
-        ['build', buildTarget],
-        options: {
-          mode.option: null,
-          if (configOnly) '--config-only': null,
-          if (target != null) '--target': target.path,
-        },
-        workingDirectory: workingDirectory,
-      );
+  }) => _run(
+    ['build', buildTarget],
+    options: {
+      mode.option: null,
+      if (configOnly) '--config-only': null,
+      if (target != null) '--target': target.path,
+    },
+    workingDirectory: workingDirectory,
+  );
 
   Future<void> _run(
     List<String> command, {
     Map<String, String?> options = const {},
     Directory? workingDirectory,
-  }) =>
-      _processRunner.run(
-        'flutter',
-        [
-          ...command,
-          for (final MapEntry(key: option, value: value)
-              in options.entries) ...[
-            option,
-            if (value != null) value,
-          ],
-        ],
-        workingDirectory: workingDirectory,
-      );
+  }) => _processRunner.run('flutter', [
+    ...command,
+    for (final MapEntry(key: option, value: value) in options.entries) ...[
+      option,
+      ?value,
+    ],
+  ], workingDirectory: workingDirectory);
 }
