@@ -1,6 +1,6 @@
 name: xport
 description: A cli tool to export Apple provisioning profiles and signing certificates and upload them to GitHub Secrets.
-version: 1.1.1
+version: 1.1.2
 repository: https://github.com/Skycoder42/xport
 
 environment:
