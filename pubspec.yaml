@@ -39,7 +39,7 @@ dev_dependencies:
   custom_lint: ^0.7.0
   dart_pre_commit: ^5.4.2
   dart_test_tools: ^6.0.1
-  ffigen: ">=16.0.0 <20.0.0"
+  ffigen: ">=16.0.0 <21.0.0"
   freezed: ">=2.5.7 <4.0.0"
   injectable_generator: ^2.6.2
   json_serializable: ^6.9.0
