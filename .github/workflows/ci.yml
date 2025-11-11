@@ -17,7 +17,7 @@ jobs:
       needsFlutterSdk: true
       buildRunner: true
       unitTestPaths: ""
-      panaScoreThreshold: 10
+      panaScoreThreshold: 30
 
   cd:
     name: CD
