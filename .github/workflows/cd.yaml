@@ -12,4 +12,5 @@ jobs:
     permissions:
       id-token: write
     with:
+      flutter: true
       buildRunner: true
