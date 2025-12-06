@@ -1,6 +1,4 @@
 include: package:dart_test_tools/strict.yaml
 plugins:
-  dart_test_tools: ^7.0.1
-analyzer:
-  exclude:
-    - "**.g.dart"
+  # broken for some weird reason
+  dart_test_tools: false
