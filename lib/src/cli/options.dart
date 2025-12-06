@@ -62,6 +62,7 @@ class Options {
 extension ArgParserX on ArgParser {
   void configure() {
     String? defaultLevelOverride;
+    // ignore: prefer_asserts_with_message for debug only code
     assert(() {
       defaultLevelOverride = Level.ALL.name;
       return true;

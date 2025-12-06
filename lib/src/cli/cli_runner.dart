@@ -96,7 +96,7 @@ class CliRunner {
       );
       return true;
 
-      // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses for catch all handling
     } catch (e, s) {
       _logger.shout('Unhandled exception', e, s);
       final home = Platform.environment['HOME'];
@@ -123,7 +123,7 @@ class CliRunner {
 
       await SetupLaunchd().setup(options);
 
-      // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses for catch all handling
     } catch (e, s) {
       _logger.shout('Unhandled exception', e, s);
       exitCode = 1;
