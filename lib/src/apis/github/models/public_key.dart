@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target for freezed
-
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';

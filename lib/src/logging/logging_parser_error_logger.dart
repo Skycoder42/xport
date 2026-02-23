@@ -11,9 +11,9 @@ class LoggingParserErrorLogger implements ParseErrorLogger {
   void logError(
     Object error,
     StackTrace stackTrace,
-    RequestOptions options,
-    Response<dynamic> response,
-  ) => _logger.severe(
+    RequestOptions options, {
+    Response<dynamic>? response,
+  }) => _logger.severe(
     'Failed to decode ${options.responseType.name} response',
     error,
     stackTrace,
