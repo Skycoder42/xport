@@ -20,8 +20,9 @@ class SetupLaunchd {
 
   Future<void> setup(Options options) async {
     final home = Platform.environment['HOME']!;
-    final pubCache =
-        Platform.environment['PUB_CACHE'] ?? path.join(home, '.pub-cache');
+    final dartDataHome =
+        Platform.environment['DART_DATA_HOME'] ??
+        path.join(home, 'Library', 'Application Support', 'Dart');
 
     final logsDir = path.join(home, 'Library/Logs/xport');
     await Directory(logsDir).create(recursive: true);
@@ -30,7 +31,7 @@ class SetupLaunchd {
     final notifierPath = await _getExecutableDirectory('terminal-notifier');
 
     final arguments = [
-      path.canonicalize(path.join(pubCache, 'bin', 'xport')),
+      path.canonicalize(path.join(dartDataHome, 'install', 'bin', 'xport')),
       ..._mapArguments(options),
     ].map(_createArgument).join('\n');
 
