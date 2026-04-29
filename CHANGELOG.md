@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.7 - 2026-04-29
+### Changed
+- Updated min sdk version to ^3.11.0
+- Updated dependencies
+
 ## 1.1.6 - 2026-03-26
 ### Fixed
 - Fixed launchd to use "dart install" instead of "dart pub global activate"
