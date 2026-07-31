@@ -8,40 +8,32 @@ import '../models/security_exception.dart';
 import 'security_framework.dart';
 
 class CFArena extends Arena {
-  final SecurityFramework securityFramework;
-
-  CFArena(this.securityFramework);
+  CFArena();
 
   Pointer<T> autoRelease<T extends NativeType>(Pointer<T> ref) =>
-      this.using<CFTypeRef>(ref.cast(), securityFramework.CFRelease).cast();
+      this.using<CFTypeRef>(ref.cast(), CFRelease).cast();
 
   CFException toCFException(CFErrorRef cfError) {
-    final code = securityFramework.CFErrorGetCode(cfError);
-    final reason = autoRelease(
-      securityFramework.CFErrorCopyFailureReason(cfError),
-    );
-    final description = autoRelease(
-      securityFramework.CFErrorCopyDescription(cfError),
-    );
+    final code = CFErrorGetCode(cfError);
+    final reason = autoRelease(CFErrorCopyFailureReason(cfError));
+    final description = autoRelease(CFErrorCopyDescription(cfError));
     return CFException(code, toDartString(reason), toDartString(description));
   }
 
   SecurityException toSecurityException(int osStatus) {
-    final message = autoRelease(
-      securityFramework.SecCopyErrorMessageString(osStatus, nullptr),
-    );
+    final message = autoRelease(SecCopyErrorMessageString(osStatus, nullptr));
     return SecurityException(osStatus, toDartString(message));
   }
 
   String toDartString(CFStringRef cfString) {
     final bufferSize =
-        securityFramework.CFStringGetMaximumSizeForEncoding(
-          securityFramework.CFStringGetLength(cfString),
+        CFStringGetMaximumSizeForEncoding(
+          CFStringGetLength(cfString),
           CFStringBuiltInEncodings.kCFStringEncodingUTF8.value,
         ) +
         1;
     final buffer = this<Char>(bufferSize);
-    final result = securityFramework.CFStringGetCString(
+    final result = CFStringGetCString(
       cfString,
       buffer,
       bufferSize,
@@ -54,14 +46,14 @@ class CFArena extends Arena {
   }
 
   Uint8List toUint8List(CFDataRef cfData) =>
-      securityFramework.CFDataGetBytePtr(cfData).cast<Uint8>().asTypedList(
-        securityFramework.CFDataGetLength(cfData),
-        finalizer: securityFramework.CFReleasePtr,
+      CFDataGetBytePtr(cfData).cast<Uint8>().asTypedList(
+        CFDataGetLength(cfData),
+        finalizer: Native.addressOf(CFRelease),
         token: cfData.cast(),
       );
 
   CFStringRef toCFString(String string) => autoRelease(
-    securityFramework.CFStringCreateWithCString(
+    CFStringCreateWithCString(
       nullptr,
       string.toNativeUtf8(allocator: this).cast(),
       CFStringBuiltInEncodings.kCFStringEncodingUTF8.value,
@@ -69,24 +61,22 @@ class CFArena extends Arena {
   );
 
   CFDateRef toCFDate(DateTime date) => autoRelease(
-    securityFramework.CFDateCreate(
+    CFDateCreate(
       nullptr,
       date.difference(DateTime.utc(2001)).inSeconds.toDouble(),
     ),
   );
 }
 
-extension SecurityFrameworkX on SecurityFramework {
-  T withArena<T>(T Function(CFArena arena) callback) {
-    if (T case Future()) {
-      throw UnsupportedError('withArena cannot be used for async operations');
-    }
+T withArena<T>(T Function(CFArena arena) callback) {
+  if (T case Future()) {
+    throw UnsupportedError('withArena cannot be used for async operations');
+  }
 
-    final arena = CFArena(this);
-    try {
-      return callback(arena);
-    } finally {
-      arena.releaseAll();
-    }
+  final arena = CFArena();
+  try {
+    return callback(arena);
+  } finally {
+    arena.releaseAll();
   }
 }

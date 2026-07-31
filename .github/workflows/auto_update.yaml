@@ -15,4 +15,4 @@ jobs:
       actions: write
     with:
       flutterCompat: false
-      validationWorkflow: ci.yaml
+      validationWorkflow: ci.yml

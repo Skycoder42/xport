@@ -4,24 +4,16 @@ import '../ffi/security_framework.dart';
 
 abstract base class CFType<T extends Pointer<NativeType>>
     implements Finalizable {
-  static final _nativeFinalizers = Expando<NativeFinalizer>(
-    'CFType._nativeFinalizers',
-  );
+  static final _nativeFinalizer = NativeFinalizer(Native.addressOf(CFRelease));
 
-  final SecurityFramework securityFramework;
   final T ref;
 
-  NativeFinalizer get _nativeFinalizer =>
-      _nativeFinalizers[securityFramework] ??= NativeFinalizer(
-        securityFramework.CFReleasePtr,
-      );
-
-  CFType(this.securityFramework, this.ref) {
+  CFType(this.ref) {
     _nativeFinalizer.attach(this, ref.cast(), detach: this);
   }
 
   void dispose() {
     _nativeFinalizer.detach(this);
-    securityFramework.CFRelease(ref.cast());
+    CFRelease(ref.cast());
   }
 }

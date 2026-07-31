@@ -7,15 +7,12 @@ import 'sec_item.dart';
 import 'security_exception.dart';
 
 final class SecIdentity extends SecItem<SecIdentityRef> {
-  SecIdentity(super.securityFramework, super.ref);
+  SecIdentity(super.ref);
 
-  SecCertificate copyCertificate() => securityFramework.withArena((arena) {
+  SecCertificate copyCertificate() => withArena((arena) {
     final certRefPtr = arena<SecCertificateRef>();
-    final result = securityFramework.SecIdentityCopyCertificate(
-      ref,
-      certRefPtr,
-    );
+    final result = SecIdentityCopyCertificate(ref, certRefPtr);
     SecurityException.validateStatus(arena, result);
-    return SecCertificate(securityFramework, certRefPtr.value);
+    return SecCertificate(certRefPtr.value);
   });
 }

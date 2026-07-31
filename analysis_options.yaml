@@ -1,4 +1,3 @@
 include: package:dart_test_tools/strict.yaml
 plugins:
-  # broken for some weird reason
-  dart_test_tools: false
+  dart_test_tools: ^7.2.3

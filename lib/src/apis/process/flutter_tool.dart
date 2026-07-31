@@ -45,7 +45,7 @@ class FlutterTool {
     Directory? workingDirectory,
   }) => _processRunner.run('flutter', [
     ...command,
-    for (final MapEntry(key: option, value: value) in options.entries) ...[
+    for (final MapEntry(key: option, :value) in options.entries) ...[
       option,
       ?value,
     ],

@@ -10,9 +10,9 @@ abstract base class SecItem<T extends Pointer<NativeType>> extends CFType<T> {
   /// See /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/SecImportExport.h:L147
   static const _secItemImportExportKeyParametersVersion = 0;
 
-  SecItem(super.securityFramework, super.ref);
+  SecItem(super.ref);
 
-  Uint8List export(String passphrase) => securityFramework.withArena((arena) {
+  Uint8List export(String passphrase) => withArena((arena) {
     final pfx = arena<CFDataRef>();
     final params = arena<SecItemImportExportKeyParameters>();
     params.ref
@@ -20,13 +20,7 @@ abstract base class SecItem<T extends Pointer<NativeType>> extends CFType<T> {
       ..flags = 0
       ..passphrase = arena.toCFString(passphrase).cast();
 
-    final result = securityFramework.SecItemExport(
-      ref.cast(),
-      SecExternalFormat.kSecFormatPKCS12,
-      0,
-      params,
-      pfx,
-    );
+    final result = SecItemExport(ref.cast(), .kSecFormatPKCS12, 0, params, pfx);
     SecurityException.validateStatus(arena, result);
     return arena.toUint8List(pfx.value);
   });

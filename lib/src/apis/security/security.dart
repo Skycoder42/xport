@@ -8,63 +8,38 @@ import 'models/sec_identity.dart';
 
 @injectable
 class Security {
-  final SecurityFramework _securityFramework;
-
-  Security(this._securityFramework);
-
   SecIdentity? findIdentity({
     required String subject,
     required DateTime validOn,
-  }) => _securityFramework.withArena((arena) {
+  }) => withArena((arena) {
     final dict = arena.autoRelease(
-      _securityFramework.CFDictionaryCreateMutable(
-        nullptr,
-        0,
-        nullptr,
-        nullptr,
-      ),
+      CFDictionaryCreateMutable(nullptr, 0, nullptr, nullptr),
     );
 
-    _securityFramework
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecClass.cast(),
-        _securityFramework.kSecClassIdentity.cast(),
-      )
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecUseDataProtectionKeychain.cast(),
-        _securityFramework.kCFBooleanFalse.cast(),
-      )
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecMatchLimit.cast(),
-        _securityFramework.kSecMatchLimitOne.cast(),
-      )
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecMatchSubjectContains.cast(),
-        arena.toCFString(subject).cast(),
-      )
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecMatchValidOnDate.cast(),
-        arena.toCFDate(validOn).cast(),
-      )
-      ..CFDictionaryAddValue(
-        dict,
-        _securityFramework.kSecReturnRef.cast(),
-        _securityFramework.kCFBooleanTrue.cast(),
-      );
+    CFDictionaryAddValue(dict, kSecClass.cast(), kSecClassIdentity.cast());
+    CFDictionaryAddValue(
+      dict,
+      kSecUseDataProtectionKeychain.cast(),
+      kCFBooleanFalse.cast(),
+    );
+    CFDictionaryAddValue(dict, kSecMatchLimit.cast(), kSecMatchLimitOne.cast());
+    CFDictionaryAddValue(
+      dict,
+      kSecMatchSubjectContains.cast(),
+      arena.toCFString(subject).cast(),
+    );
+    CFDictionaryAddValue(
+      dict,
+      kSecMatchValidOnDate.cast(),
+      arena.toCFDate(validOn).cast(),
+    );
+    CFDictionaryAddValue(dict, kSecReturnRef.cast(), kCFBooleanTrue.cast());
 
     final typeRef = arena<CFTypeRef>();
-    final result = _securityFramework.SecItemCopyMatching(dict, typeRef);
+    final result = SecItemCopyMatching(dict, typeRef);
     switch (result) {
       case errSecSuccess:
-        return SecIdentity(
-          _securityFramework,
-          typeRef.cast<SecIdentityRef>().value,
-        );
+        return SecIdentity(typeRef.cast<SecIdentityRef>().value);
       case errSecItemNotFound:
         return null;
       default:

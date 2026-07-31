@@ -6,14 +6,11 @@ import '../ffi/security_framework.dart';
 import 'sec_item.dart';
 
 final class SecCertificate extends SecItem<SecCertificateRef> {
-  SecCertificate(super.securityFramework, super.ref);
+  SecCertificate(super.ref);
 
-  Uint8List get serialNumber => securityFramework.withArena((arena) {
+  Uint8List get serialNumber => withArena((arena) {
     final error = arena<CFErrorRef>();
-    final data = securityFramework.SecCertificateCopySerialNumberData(
-      ref,
-      error,
-    );
+    final data = SecCertificateCopySerialNumberData(ref, error);
 
     if (error.value != nullptr) {
       arena.autoRelease(data);
