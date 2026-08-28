@@ -27,7 +27,7 @@ class XPorter {
   final ConfigLoader _configLoader;
   final _logger = Logger('XPorter');
 
-  XPorter(
+  new(
     this._config,
     this._signingConfigLoader,
     this._security,

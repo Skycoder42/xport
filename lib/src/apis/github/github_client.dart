@@ -18,17 +18,16 @@ class GithubClient extends __GitHubClientBase {
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
-  factory GithubClient({required XPortConfig config}) =>
-      GithubClient.withOptions(
-        BaseOptions(),
-        accessToken: config.accessToken,
-        errorLogger: LoggingParserErrorLogger('GithubClient'),
-      );
+  factory({required XPortConfig config}) => GithubClient.withOptions(
+    BaseOptions(),
+    accessToken: config.accessToken,
+    errorLogger: LoggingParserErrorLogger('GithubClient'),
+  );
 
-  GithubClient.withOptions(
+  new withOptions(
     BaseOptions options, {
     required String accessToken,
-    ParseErrorLogger? errorLogger,
+    super.errorLogger,
   }) : super(
          Dio(
            options
@@ -36,7 +35,6 @@ class GithubClient extends __GitHubClientBase {
              ..headers[io.HttpHeaders.authorizationHeader] =
                  'Bearer $accessToken',
          ),
-         errorLogger: errorLogger,
        );
 
   @disposeMethod

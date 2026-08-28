@@ -10,21 +10,18 @@ part 'github_target.g.dart';
 @Freezed(unionKey: 'type')
 sealed class GitHubTarget with _$GitHubTarget {
   @yamlSerializable
-  const factory GitHubTarget.org(@yamlRequired String org) = GitHubTargetOrg;
+  const factory org(@yamlRequired String org) = GitHubTargetOrg;
 
   @yamlSerializable
-  const factory GitHubTarget.repo(
-    @yamlRequired String owner,
-    @yamlRequired String repo,
-  ) = GitHubTargetRepo;
+  const factory repo(@yamlRequired String owner, @yamlRequired String repo) =
+      GitHubTargetRepo;
 
   @yamlSerializable
-  const factory GitHubTarget.env(
+  const factory env(
     @yamlRequired String owner,
     @yamlRequired String repo,
     @yamlRequired String env,
   ) = GitHubTargetEnv;
 
-  factory GitHubTarget.fromJson(Map<String, dynamic> json) =>
-      _$GitHubTargetFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$GitHubTargetFromJson(json);
 }

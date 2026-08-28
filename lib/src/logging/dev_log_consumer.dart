@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:logging/logging.dart';
 
 class DevLogConsumer implements StreamConsumer<LogRecord> {
-  const DevLogConsumer();
+  const new();
 
   @override
   Future<void> addStream(Stream<LogRecord> stream) async {

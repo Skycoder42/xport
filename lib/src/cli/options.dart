@@ -51,7 +51,7 @@ class Options {
   @CliOption(abbr: 'h', negatable: false, help: 'Show this help.')
   final bool help;
 
-  const Options({
+  const new({
     required this.projectDirs,
     required this.logLevel,
     this.setupLaunchd = false,

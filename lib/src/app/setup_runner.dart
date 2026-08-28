@@ -11,7 +11,7 @@ class SetupRunner {
   final XPortConfig _config;
   final ProcessRunner _processRunner;
 
-  SetupRunner(this._config, this._processRunner);
+  new(this._config, this._processRunner);
 
   Future<void> runSetupScript({Directory? workingDirectory}) async {
     final script = _config.setupScript;
@@ -21,9 +21,8 @@ class SetupRunner {
 
     final tmpDir = await Directory.systemTemp.createTemp();
     try {
-      final scriptFile = await File.fromUri(
-        tmpDir.uri.resolve('setup.sh'),
-      ).create(exclusive: true);
+      final scriptFile = await File.fromUri(tmpDir.uri.resolve('setup.sh'))
+          .create(exclusive: true);
       chmod(scriptFile.path, '700');
       await scriptFile.writeAsString(script, flush: true);
       await _processRunner.run(

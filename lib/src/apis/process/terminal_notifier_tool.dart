@@ -8,7 +8,7 @@ import 'process_runner.dart';
 class TerminalNotifierTool {
   final ProcessRunner _processRunner;
 
-  TerminalNotifierTool(this._processRunner);
+  new(this._processRunner);
 
   Future<void> notify({
     String? title,

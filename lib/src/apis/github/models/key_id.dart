@@ -4,11 +4,11 @@ part 'key_id.freezed.dart';
 
 @Freezed(toJson: false, fromJson: false)
 sealed class KeyId with _$KeyId {
-  const factory KeyId(String keyId) = _KeyId;
+  const factory(String keyId) = _KeyId;
 
-  factory KeyId.fromJson(String json) => _KeyId(json);
+  factory fromJson(String json) => _KeyId(json);
 
-  const KeyId._();
+  const new _();
 
   String toJson() => keyId;
 }

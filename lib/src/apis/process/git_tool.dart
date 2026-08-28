@@ -8,7 +8,7 @@ import 'process_runner.dart';
 class GitTool {
   final ProcessRunner _processRunner;
 
-  GitTool(this._processRunner);
+  new(this._processRunner);
 
   Future<void> pull({Directory? workingDirectory}) => _processRunner.run(
     'git',

@@ -26,7 +26,7 @@ class SigningConfigLoader {
   final Directory _projectDir;
   final _logger = Logger('SigningConfigLoader');
 
-  SigningConfigLoader(
+  new(
     this._gitTool,
     this._setupRunner,
     this._flutterTool,

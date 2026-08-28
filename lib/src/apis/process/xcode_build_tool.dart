@@ -11,7 +11,7 @@ enum XCodeBuildMode {
 
   final String value;
 
-  const XCodeBuildMode(this.value);
+  new(this.value);
 }
 
 enum XCodeBuildSDK {
@@ -21,14 +21,14 @@ enum XCodeBuildSDK {
 
   final String value;
 
-  const XCodeBuildSDK(this.value);
+  new(this.value);
 }
 
 @injectable
 class XCodeBuildTool {
   final ProcessRunner _processRunner;
 
-  XCodeBuildTool(this._processRunner);
+  new(this._processRunner);
 
   Stream<String> call({
     required String command,

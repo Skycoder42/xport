@@ -4,7 +4,7 @@ part 'signing_config.freezed.dart';
 
 @freezed
 sealed class SigningConfig with _$SigningConfig {
-  const factory SigningConfig({
+  const factory({
     required String signingIdentity,
     required String provisioningProfileId,
   }) = _SigningConfig;

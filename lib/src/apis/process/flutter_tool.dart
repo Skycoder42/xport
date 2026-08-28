@@ -11,14 +11,14 @@ enum FlutterBuildMode {
 
   final String option;
 
-  const FlutterBuildMode(this.option);
+  new(this.option);
 }
 
 @injectable
 class FlutterTool {
   final ProcessRunner _processRunner;
 
-  FlutterTool(this._processRunner);
+  new(this._processRunner);
 
   Future<void> pub(String command, {Directory? workingDirectory}) =>
       _run(['pub', command], workingDirectory: workingDirectory);

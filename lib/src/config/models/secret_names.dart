@@ -17,13 +17,12 @@ sealed class SecretNames with _$SecretNames {
   static const defaultNames = SecretNames();
 
   @yamlSerializable
-  const factory SecretNames({
+  const factory({
     @Default(SecretNames._profileSecretDefaultName) String profile,
     @Default(SecretNames._identitySecretDefaultName) String identity,
     @Default(SecretNames._identityPassphraseSecretDefaultName)
     String identityPassphrase,
   }) = _SecretNames;
 
-  factory SecretNames.fromJson(Map<String, dynamic> json) =>
-      _$SecretNamesFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$SecretNamesFromJson(json);
 }

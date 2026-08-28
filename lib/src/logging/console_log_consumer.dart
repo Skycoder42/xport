@@ -5,7 +5,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:logging/logging.dart';
 
 class ConsoleLogConsumer implements StreamConsumer<LogRecord> {
-  const ConsoleLogConsumer();
+  const new();
 
   @override
   Future<void> addStream(Stream<LogRecord> stream) async {
