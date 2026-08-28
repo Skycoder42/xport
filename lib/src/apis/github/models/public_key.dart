@@ -11,11 +11,10 @@ part 'public_key.g.dart';
 @freezed
 sealed class PublicKey with _$PublicKey {
   @BinaryConverter()
-  const factory PublicKey({
+  const factory({
     @JsonKey(name: 'key_id') required KeyId keyId,
     required Uint8List key,
   }) = _PublicKey;
 
-  factory PublicKey.fromJson(Map<String, dynamic> json) =>
-      _$PublicKeyFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$PublicKeyFromJson(json);
 }

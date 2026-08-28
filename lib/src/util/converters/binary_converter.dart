@@ -6,7 +6,7 @@ import 'package:meta/meta_meta.dart';
 
 @Target({TargetKind.constructor})
 class BinaryConverter implements JsonConverter<Uint8List, String> {
-  const BinaryConverter();
+  const new();
 
   @override
   Uint8List fromJson(String json) => base64.decode(json);

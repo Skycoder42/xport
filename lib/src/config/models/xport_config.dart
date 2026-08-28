@@ -14,7 +14,7 @@ part 'xport_config.g.dart';
 @freezed
 sealed class XPortConfig with _$XPortConfig {
   @yamlSerializable
-  const factory XPortConfig({
+  const factory({
     @yamlRequired required GitHubTarget target,
     @yamlRequired required String accessToken,
     @Default(SecretNames.defaultNames) SecretNames secrets,
@@ -22,9 +22,7 @@ sealed class XPortConfig with _$XPortConfig {
     UploadCache? cache,
   }) = _XPortConfig;
 
-  factory XPortConfig.fromYaml(YamlMap yaml) =>
-      XPortConfig.fromJson(yaml.cast());
+  factory fromYaml(YamlMap yaml) => XPortConfig.fromJson(yaml.cast());
 
-  factory XPortConfig.fromJson(Map<String, dynamic> json) =>
-      _$XPortConfigFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$XPortConfigFromJson(json);
 }

@@ -3,7 +3,7 @@ class CFException implements Exception {
   final String reason;
   final String description;
 
-  CFException(this.code, this.reason, this.description);
+  new(this.code, this.reason, this.description);
 
   @override
   String toString() => 'CFException($code): $reason\nDescription: $description';

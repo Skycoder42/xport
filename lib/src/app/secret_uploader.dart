@@ -20,7 +20,7 @@ class SecretUploader {
 
   PublicKey? _cachedPublicKey;
 
-  SecretUploader(this._config, this._githubClient, this._sodium);
+  new(this._config, this._githubClient, this._sodium);
 
   Future<void> uploadProvisioningProfile(Uint8List profileBytes) async {
     final publicKey = await _loadPublicKey(_config.target);

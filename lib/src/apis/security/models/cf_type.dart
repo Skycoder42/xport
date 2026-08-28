@@ -8,7 +8,7 @@ abstract base class CFType<T extends Pointer<NativeType>>
 
   final T ref;
 
-  CFType(this.ref) {
+  new(this.ref) {
     _nativeFinalizer.attach(this, ref.cast(), detach: this);
   }
 

@@ -5,7 +5,7 @@ class SecurityException implements Exception {
   final int osStatus;
   final String message;
 
-  SecurityException(this.osStatus, this.message);
+  new(this.osStatus, this.message);
 
   @override
   String toString() => 'SecurityException($osStatus): $message';

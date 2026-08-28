@@ -16,7 +16,7 @@ class SetupLaunchd {
   final ProcessRunner _processRunner;
   final _logger = Logger('SetupLaunchd');
 
-  SetupLaunchd() : _processRunner = ProcessRunner();
+  new() : _processRunner = ProcessRunner();
 
   Future<void> setup(Options options) async {
     final home = Platform.environment['HOME']!;

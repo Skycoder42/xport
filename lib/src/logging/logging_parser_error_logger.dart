@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 class LoggingParserErrorLogger implements ParseErrorLogger {
   final Logger _logger;
 
-  LoggingParserErrorLogger(String name) : _logger = Logger(name);
+  new(String name) : _logger = Logger(name);
 
   @override
   void logError(

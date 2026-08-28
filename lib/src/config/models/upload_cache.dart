@@ -14,11 +14,10 @@ part 'upload_cache.g.dart';
 sealed class UploadCache with _$UploadCache {
   @yamlSerializable
   @BinaryConverter()
-  const factory UploadCache({
+  const factory({
     @yamlRequired required String profileId,
     @yamlRequired required Uint8List certificateSerialNumber,
   }) = _UploadCache;
 
-  factory UploadCache.fromJson(Map<String, dynamic> json) =>
-      _$UploadCacheFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$UploadCacheFromJson(json);
 }

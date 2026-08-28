@@ -19,7 +19,7 @@ import 'project_module.dart';
 class CliRunner {
   final _logger = Logger('CliRunner');
 
-  CliRunner();
+  new();
 
   Future<void> call(List<String> args) async {
     final options = await _parseArguments(args);
