@@ -6,11 +6,10 @@ import '../ffi/security_framework.dart';
 import 'cf_type.dart';
 import 'security_exception.dart';
 
-abstract base class SecItem<T extends Pointer<NativeType>> extends CFType<T> {
+abstract base class SecItem<T extends Pointer<NativeType>>(super.ref)
+    extends CFType<T> {
   /// See /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/SecImportExport.h:L147
   static const _secItemImportExportKeyParametersVersion = 0;
-
-  new(super.ref);
 
   Uint8List export(String passphrase) => withArena((arena) {
     final pfx = arena<CFDataRef>();
