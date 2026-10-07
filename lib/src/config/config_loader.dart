@@ -11,7 +11,7 @@ import 'models/upload_cache.dart';
 import 'models/xport_config.dart';
 
 @module
-abstract class ConfigModule {
+abstract class ConfigModule() {
   @singleton
   @preResolve
   Future<XPortConfig> config(ConfigLoader configLoader) async =>
@@ -19,10 +19,8 @@ abstract class ConfigModule {
 }
 
 @injectable
-class ConfigLoader {
+class ConfigLoader(@projectDirRef this.projectDir) {
   final Directory projectDir;
-
-  new(@projectDirRef this.projectDir);
 
   Future<XPortConfig> load() async {
     final configFile = _getConfigFile();

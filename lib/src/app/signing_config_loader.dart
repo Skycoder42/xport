@@ -12,27 +12,21 @@ import 'models/signing_config_missing_exception.dart';
 import 'setup_runner.dart';
 
 @injectable
-class SigningConfigLoader {
+class SigningConfigLoader(
+  final GitTool _gitTool,
+  final SetupRunner _setupRunner,
+  final FlutterTool _flutterTool,
+  final XCodeBuildTool _xCodeBuildTool,
+  @projectDirRef this._projectDir,
+) {
   static final _signingIdRegExp = RegExp(r'Signing Identity:\s+"(.*)"');
   static final _provisioningProfileIdRegExp = RegExp(
     r'\(([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)',
     caseSensitive: false,
   );
 
-  final GitTool _gitTool;
-  final SetupRunner _setupRunner;
-  final FlutterTool _flutterTool;
-  final XCodeBuildTool _xCodeBuildTool;
   final Directory _projectDir;
   final _logger = Logger('SigningConfigLoader');
-
-  new(
-    this._gitTool,
-    this._setupRunner,
-    this._flutterTool,
-    this._xCodeBuildTool,
-    @projectDirRef this._projectDir,
-  );
 
   Future<void> configureProject() async {
     _logger.info('Pulling and updating project configuration');

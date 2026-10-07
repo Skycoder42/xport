@@ -4,32 +4,20 @@ import 'package:injectable/injectable.dart';
 
 import 'process_runner.dart';
 
-enum XCodeBuildMode {
+enum XCodeBuildMode(final String value) {
   debug('Debug'),
   profile('Profile'),
-  release('Release');
-
-  final String value;
-
-  new(this.value);
+  release('Release'),
 }
 
-enum XCodeBuildSDK {
+enum XCodeBuildSDK(final String value) {
   iPhoneOs('iphoneos'),
   iPhoneSimulator('iphonesimulator'),
-  macOsx('macosx');
-
-  final String value;
-
-  new(this.value);
+  macOsx('macosx'),
 }
 
 @injectable
-class XCodeBuildTool {
-  final ProcessRunner _processRunner;
-
-  new(this._processRunner);
-
+class XCodeBuildTool(final ProcessRunner _processRunner) {
   Stream<String> call({
     required String command,
     required String workspace,

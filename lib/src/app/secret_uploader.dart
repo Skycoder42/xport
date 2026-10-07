@@ -12,15 +12,14 @@ import '../config/models/github_target.dart';
 import '../config/models/xport_config.dart';
 
 @injectable
-class SecretUploader {
-  final XPortConfig _config;
-  final GithubClient _githubClient;
-  final Sodium _sodium;
+class SecretUploader(
+  final XPortConfig _config,
+  final GithubClient _githubClient,
+  final Sodium _sodium,
+) {
   final _logger = Logger('SecretUploader');
 
   PublicKey? _cachedPublicKey;
-
-  new(this._config, this._githubClient, this._sodium);
 
   Future<void> uploadProvisioningProfile(Uint8List profileBytes) async {
     final publicKey = await _loadPublicKey(_config.target);

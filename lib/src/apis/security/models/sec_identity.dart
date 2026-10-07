@@ -6,9 +6,7 @@ import 'sec_certificate.dart';
 import 'sec_item.dart';
 import 'security_exception.dart';
 
-final class SecIdentity extends SecItem<SecIdentityRef> {
-  new(super.ref);
-
+final class SecIdentity(super.ref) extends SecItem<SecIdentityRef> {
   SecCertificate copyCertificate() => withArena((arena) {
     final certRefPtr = arena<SecCertificateRef>();
     final result = SecIdentityCopyCertificate(ref, certRefPtr);

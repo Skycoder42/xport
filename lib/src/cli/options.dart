@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 part 'options.g.dart';
 
 @CliOptions()
-class Options {
+class const Options({
   @CliOption(
     name: 'project-dir',
     abbr: 'd',
@@ -16,16 +16,7 @@ class Options {
         'extract the signing data from.',
     provideDefaultToOverride: true,
   )
-  final List<String> projectDirs;
-
-  @CliOption(
-    negatable: false,
-    help:
-        'If specified, generate a launchd agent for the given projects '
-        'and log level.',
-  )
-  final bool setupLaunchd;
-
+  required final List<String> projectDirs,
   @CliOption(
     abbr: 'l',
     convert: _stringToLevel,
@@ -46,18 +37,17 @@ class Options {
     help: 'The logging level to use.',
     provideDefaultToOverride: true,
   )
-  final Level logLevel;
-
+  required final Level logLevel,
+  @CliOption(
+    negatable: false,
+    help:
+        'If specified, generate a launchd agent for the given projects '
+        'and log level.',
+  )
+  final bool setupLaunchd = false,
   @CliOption(abbr: 'h', negatable: false, help: 'Show this help.')
-  final bool help;
-
-  const new({
-    required this.projectDirs,
-    required this.logLevel,
-    this.setupLaunchd = false,
-    this.help = false,
-  });
-}
+  final bool help = false,
+});
 
 extension ArgParserX on ArgParser {
   void configure() {

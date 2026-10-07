@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 @injectable
-class ProcessRunner {
+class ProcessRunner() {
   final _logger = Logger('ProcessRunner');
 
   Stream<String> streamLines(

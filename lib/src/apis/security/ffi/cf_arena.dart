@@ -7,9 +7,7 @@ import '../models/cf_exception.dart';
 import '../models/security_exception.dart';
 import 'security_framework.dart';
 
-class CFArena extends Arena {
-  new();
-
+class CFArena() extends Arena {
   Pointer<T> autoRelease<T extends NativeType>(Pointer<T> ref) =>
       this.using<CFTypeRef>(ref.cast(), CFRelease).cast();
 

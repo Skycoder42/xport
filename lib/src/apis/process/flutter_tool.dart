@@ -4,22 +4,14 @@ import 'package:injectable/injectable.dart';
 
 import 'process_runner.dart';
 
-enum FlutterBuildMode {
+enum FlutterBuildMode(final String option) {
   debug('--debug'),
   profile('--profile'),
-  release('--release');
-
-  final String option;
-
-  new(this.option);
+  release('--release'),
 }
 
 @injectable
-class FlutterTool {
-  final ProcessRunner _processRunner;
-
-  new(this._processRunner);
-
+class FlutterTool(final ProcessRunner _processRunner) {
   Future<void> pub(String command, {Directory? workingDirectory}) =>
       _run(['pub', command], workingDirectory: workingDirectory);
 

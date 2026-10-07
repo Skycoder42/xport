@@ -6,7 +6,7 @@ import 'package:path/path.dart' as path;
 import '../apis/process/process_runner.dart';
 import '../cli/options.dart';
 
-class SetupLaunchd {
+class SetupLaunchd() {
   static const _agentId = 'de.skycoder42.xport';
   static const _argumentsReplaceKey = '%{ARGUMENTS_PLACEHOLDER}';
   static const _logsDirReplaceKey = '%{LOGS_DIR_PLACEHOLDER}';
@@ -16,7 +16,7 @@ class SetupLaunchd {
   final ProcessRunner _processRunner;
   final _logger = Logger('SetupLaunchd');
 
-  new() : _processRunner = ProcessRunner();
+  this : _processRunner = ProcessRunner();
 
   Future<void> setup(Options options) async {
     final home = Platform.environment['HOME']!;

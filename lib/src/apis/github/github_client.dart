@@ -12,7 +12,11 @@ import 'models/public_key.dart';
 part 'github_client.g.dart';
 
 @singleton
-class GithubClient extends __GitHubClientBase {
+class GithubClient.withOptions(
+  BaseOptions options, {
+  required String accessToken,
+  super.errorLogger,
+}) extends __GitHubClientBase {
   static const _defaultHeaders = {
     io.HttpHeaders.acceptHeader: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
@@ -24,25 +28,22 @@ class GithubClient extends __GitHubClientBase {
     errorLogger: LoggingParserErrorLogger('GithubClient'),
   );
 
-  new withOptions(
-    BaseOptions options, {
-    required String accessToken,
-    super.errorLogger,
-  }) : super(
-         Dio(
-           options
-             ..headers.addAll(_defaultHeaders)
-             ..headers[io.HttpHeaders.authorizationHeader] =
-                 'Bearer $accessToken',
-         ),
-       );
+  this
+    : super(
+        Dio(
+          options
+            ..headers.addAll(_defaultHeaders)
+            ..headers[io.HttpHeaders.authorizationHeader] =
+                'Bearer $accessToken',
+        ),
+      );
 
   @disposeMethod
   void close({bool force = false}) => _dio.close();
 }
 
 @RestApi(baseUrl: 'https://api.github.com/')
-abstract class _GitHubClientBase {
+abstract class _GitHubClientBase() {
   @GET('/orgs/{org}/actions/secrets/public-key')
   Future<PublicKey> getOrganisationPublicKey(@Path() String org);
 
