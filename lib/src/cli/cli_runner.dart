@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_util/cli_util.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
@@ -17,6 +18,7 @@ import 'options.dart';
 import 'project_module.dart';
 
 class CliRunner() {
+  final _baseDirs = BaseDirectories('xport');
   final _logger = Logger('CliRunner');
 
   Future<void> call(List<String> args) async {
@@ -86,8 +88,10 @@ class CliRunner() {
         di.get<TerminalNotifierTool>().notify(
           title: 'XPorter',
           subTitle: path.canonicalize(projectDir),
-          contentImage: Uri.parse(
-            'https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png',
+          contentImage: await _cacheIcon(
+            Uri.parse(
+              'https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png',
+            ),
           ),
           message: 'Successfully updated singing configurations.',
         ),
@@ -102,8 +106,10 @@ class CliRunner() {
         di.get<TerminalNotifierTool>().notify(
           title: 'XPorter',
           subTitle: path.canonicalize(projectDir),
-          contentImage: Uri.parse(
-            'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png',
+          contentImage: await _cacheIcon(
+            Uri.parse(
+              'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png',
+            ),
           ),
           message: e.toString(),
           onOpen: Directory('$home/Library/Logs/xport'),
@@ -126,5 +132,33 @@ class CliRunner() {
       _logger.shout('Unhandled exception', e, s);
       exitCode = 1;
     }
+  }
+
+  Future<Uri> _cacheIcon(Uri icon) async {
+    final cacheDir = Directory(_baseDirs.cacheHome);
+    if (!cacheDir.existsSync()) {
+      await cacheDir.create(recursive: true);
+    }
+    final iconFile = File.fromUri(cacheDir.uri.resolve(icon.pathSegments.last));
+
+    if (!iconFile.existsSync()) {
+      final client = HttpClient();
+      try {
+        final request = await client.getUrl(icon);
+        final response = await request.close();
+        if (response.statusCode != 200) {
+          _logger.warning(
+            'Failed to download icon from $icon '
+            'with status code ${response.statusCode}',
+          );
+        } else {
+          await response.pipe(iconFile.openWrite());
+        }
+      } finally {
+        client.close();
+      }
+    }
+
+    return iconFile.uri;
   }
 }
