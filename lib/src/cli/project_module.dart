@@ -8,7 +8,7 @@ void setProjectDir(Directory directory) =>
     ProjectModule._projectDir = directory;
 
 @module
-abstract class ProjectModule {
+abstract class ProjectModule() {
   static late Directory _projectDir;
 
   @injectable

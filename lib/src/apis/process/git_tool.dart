@@ -5,11 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'process_runner.dart';
 
 @injectable
-class GitTool {
-  final ProcessRunner _processRunner;
-
-  new(this._processRunner);
-
+class GitTool(final ProcessRunner _processRunner) {
   Future<void> pull({Directory? workingDirectory}) => _processRunner.run(
     'git',
     const ['pull'],

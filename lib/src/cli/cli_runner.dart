@@ -16,10 +16,8 @@ import 'dependencies.config.dart';
 import 'options.dart';
 import 'project_module.dart';
 
-class CliRunner {
+class CliRunner() {
   final _logger = Logger('CliRunner');
-
-  new();
 
   Future<void> call(List<String> args) async {
     final options = await _parseArguments(args);

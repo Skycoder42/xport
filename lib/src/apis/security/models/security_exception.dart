@@ -1,12 +1,8 @@
 import '../ffi/cf_arena.dart';
 import '../ffi/security_framework.dart';
 
-class SecurityException implements Exception {
-  final int osStatus;
-  final String message;
-
-  new(this.osStatus, this.message);
-
+class SecurityException(final int osStatus, final String message)
+    implements Exception {
   @override
   String toString() => 'SecurityException($osStatus): $message';
 

@@ -9,7 +9,7 @@ part 'encrypted_secret.freezed.dart';
 part 'encrypted_secret.g.dart';
 
 @freezed
-sealed class EncryptedSecret with _$EncryptedSecret {
+sealed class const EncryptedSecret._() with _$EncryptedSecret {
   @BinaryConverter()
   const factory({
     @JsonKey(name: 'key_id') required KeyId keyId,
@@ -18,8 +18,6 @@ sealed class EncryptedSecret with _$EncryptedSecret {
 
   factory fromJson(Map<String, dynamic> json) =>
       _$EncryptedSecretFromJson(json);
-
-  const new _();
 
   @override
   Map<String, dynamic> toJson() => throw UnimplementedError();

@@ -7,12 +7,10 @@ import '../apis/process/process_runner.dart';
 import '../config/models/xport_config.dart';
 
 @injectable
-class SetupRunner {
-  final XPortConfig _config;
-  final ProcessRunner _processRunner;
-
-  new(this._config, this._processRunner);
-
+class SetupRunner(
+  final XPortConfig _config,
+  final ProcessRunner _processRunner,
+) {
   Future<void> runSetupScript({Directory? workingDirectory}) async {
     final script = _config.setupScript;
     if (script == null) {

@@ -5,11 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'process_runner.dart';
 
 @injectable
-class TerminalNotifierTool {
-  final ProcessRunner _processRunner;
-
-  new(this._processRunner);
-
+class TerminalNotifierTool(final ProcessRunner _processRunner) {
   Future<void> notify({
     String? title,
     String? subTitle,

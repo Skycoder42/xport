@@ -7,7 +7,7 @@ import 'ffi/security_framework.dart';
 import 'models/sec_identity.dart';
 
 @injectable
-class Security {
+class Security() {
   SecIdentity? findIdentity({
     required String subject,
     required DateTime validOn,

@@ -18,23 +18,15 @@ import 'secret_uploader.dart';
 import 'signing_config_loader.dart';
 
 @injectable
-class XPorter {
-  final XPortConfig _config;
-  final SigningConfigLoader _signingConfigLoader;
-  final Security _security;
-  final Sodium _sodium;
-  final SecretUploader _secretUploader;
-  final ConfigLoader _configLoader;
+class XPorter(
+  final XPortConfig _config,
+  final SigningConfigLoader _signingConfigLoader,
+  final Security _security,
+  final Sodium _sodium,
+  final SecretUploader _secretUploader,
+  final ConfigLoader _configLoader,
+) {
   final _logger = Logger('XPorter');
-
-  new(
-    this._config,
-    this._signingConfigLoader,
-    this._security,
-    this._sodium,
-    this._secretUploader,
-    this._configLoader,
-  );
 
   Future<void> updateSecrets() async {
     await _signingConfigLoader.configureProject();

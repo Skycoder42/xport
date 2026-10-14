@@ -1,10 +1,6 @@
-enum SigningConfigKind {
+enum SigningConfigKind(final String displayName) {
   provisioningProfile('Provisioning Profile'),
-  signingIdentity('Signing Identity');
-
-  final String displayName;
-
-  new(this.displayName);
+  signingIdentity('Signing Identity'),
 }
 
 class SigningConfigMissingException implements Exception {

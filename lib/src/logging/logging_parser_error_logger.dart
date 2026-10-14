@@ -2,10 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:retrofit/retrofit.dart';
 
-class LoggingParserErrorLogger implements ParseErrorLogger {
-  final Logger _logger;
-
-  new(String name) : _logger = Logger(name);
+class LoggingParserErrorLogger(String name) implements ParseErrorLogger {
+  final _logger = Logger(name);
 
   @override
   void logError(
